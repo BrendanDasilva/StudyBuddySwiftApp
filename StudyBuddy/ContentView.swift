@@ -3,22 +3,41 @@
 //  StudyBuddy
 //
 //  Created by Brendan Dasilva on 2025-03-04.
-//
+//             Kailie Field
+//             Jessica Lee
+//             Lucas Caridi
 
 import SwiftUI
 
+
 struct ContentView: View {
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor.black
+        UITabBar.appearance().unselectedItemTintColor = UIColor.white
+    }
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            TabView {
+                WelcomeView()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                        Text("Home")
+                    }
+
+                AccountView()
+                    .tabItem {
+                        Image(systemName: "person.crop.circle.fill")
+                        Text("Account")
+                    }
+            }
         }
-        .padding()
     }
 }
 
-#Preview {
-    ContentView()
+// Preview
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
