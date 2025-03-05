@@ -1,16 +1,16 @@
 //
-//  RegisterView.swift
+//  LoginView.swift
 //  StudyBuddy
 //
-//  Created by Brendan Dasilva on 2025-03-04.
+//  Created by Brendan Dasilva on 2025-03-05.
 //
 
 import SwiftUI
 
-struct RegisterView: View {
-    @State private var username = ""
+struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
+    @State private var rememberMe = false
     
     var body: some View {
         ZStack {
@@ -22,10 +22,6 @@ struct RegisterView: View {
                     .multilineTextAlignment(.center)
                 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Username").foregroundColor(.white)
-                    TextField("user1234", text: $username)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
                     Text("Email").foregroundColor(.white)
                     TextField("user@domain.com", text: $email)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -33,10 +29,13 @@ struct RegisterView: View {
                     Text("Password").foregroundColor(.white)
                     SecureField("******", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                    
+                    Toggle("Remember Me", isOn: $rememberMe)
+                        .foregroundColor(.white)
                 }
                 .padding(.horizontal, 30)
                 
-                Button("Register") {}
+                Button("Login") {}
                     .frame(width: 200, height: 50)
                     .background(Color.purple)
                     .cornerRadius(10)
@@ -51,6 +50,6 @@ struct RegisterView: View {
 
 #Preview {
     Group {
-        RegisterView()
+        LoginView()
     }
 }
