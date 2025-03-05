@@ -6,10 +6,15 @@
 import SwiftUI
 
 struct StudyAppsView: View {
-    let studyApps = [
-        "Courses", "Scheduler", "Pomodoro Timer", "Flash Cards", "To-Do List", "Notes"
+    let studyApps: [(String, AnyView)] = [
+        ("Courses", AnyView(CoursesApp())),
+        ("Scheduler", AnyView(SchedulerApp())),
+        ("Pomodoro Timer", AnyView(PomodoroTimerApp())),
+        ("Flash Cards", AnyView(FlashCardsApp())),
+        ("To-Do List", AnyView(ToDoApp())),
+        ("Notes", AnyView(NotesApp()))
     ]
-    
+
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
@@ -20,10 +25,10 @@ struct StudyAppsView: View {
                 .foregroundColor(.white)
                 .padding(.top, 20)
 
-            // grid layout for study apps
+            // ✅ Grid Layout with Navigation
             LazyVGrid(columns: columns, spacing: 20) {
-                ForEach(studyApps, id: \.self) { app in
-                    StudyAppGridButton(title: app)
+                ForEach(studyApps, id: \.0) { app in
+                    StudyAppGridButton(title: app.0, destination: app.1)
                 }
             }
             .padding(.horizontal, 20)
