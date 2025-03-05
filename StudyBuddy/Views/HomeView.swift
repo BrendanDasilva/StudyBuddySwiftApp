@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        NavigationStack { // ✅ Enables navigation
+        NavigationStack {
             ZStack {
                 Color(hex: "8AACEA").edgesIgnoringSafeArea(.all)
                 VStack(spacing: 30) {
