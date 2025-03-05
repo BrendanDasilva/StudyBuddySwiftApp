@@ -14,34 +14,43 @@ struct PomodoroTimerApp: View {
 
     var body: some View {
         VStack {
-            // ✅ Mode Selection Buttons
-            HStack {
-                PomodoroModeButton(title: "Pomodoro", mode: .pomodoro, currentMode: $mode, timeRemaining: $timeRemaining, isActive: $isActive)
-                PomodoroModeButton(title: "Short Break", mode: .shortBreak, currentMode: $mode, timeRemaining: $timeRemaining, isActive: $isActive)
-                PomodoroModeButton(title: "Long Break", mode: .longBreak, currentMode: $mode, timeRemaining: $timeRemaining, isActive: $isActive)
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white)
+                    .frame(width: 360, height: 320)
+                    .shadow(radius: 5)
+
+                VStack {
+                    // mode selection buttons
+                    PomodoroModeButton(title: "Pomodoro", mode: .pomodoro, currentMode: $mode, timeRemaining: $timeRemaining, isActive: $isActive)
+                    
+                    HStack {
+                        PomodoroModeButton(title: "Short Break", mode: .shortBreak, currentMode: $mode, timeRemaining: $timeRemaining, isActive: $isActive)
+                        PomodoroModeButton(title: "Long Break", mode: .longBreak, currentMode: $mode, timeRemaining: $timeRemaining, isActive: $isActive)
+                    }
+                    .padding()
+
+                    // timer display
+                    TimerView(timeRemaining: timeRemaining)
+
+                    // start/pause button
+                    Button(action: {
+                        isActive.toggle()
+                    }) {
+                        Text(isActive ? "Pause" : "Start")
+                            .font(.title)
+                            .frame(width: 140, height: 50)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.top, 10)
+                }
             }
             .padding()
 
-            // ✅ Timer Display
-            TimerView(timeRemaining: timeRemaining)
-
-            // ✅ Start/Pause Button
-            Button(action: {
-                isActive.toggle()
-            }) {
-                Text(isActive ? "Pause" : "Start")
-                    .font(.title)
-                    .frame(width: 150, height: 50)
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            .padding()
-
-            // ✅ Task List
+            // task list
             TaskListView(tasks: $tasks)
-
-            Spacer()
         }
         .padding()
         .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
@@ -50,7 +59,7 @@ struct PomodoroTimerApp: View {
         }
     }
 
-    // ✅ Timer Functionality
+    // timer functionality
     private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             if isActive && timeRemaining > 0 {
@@ -64,7 +73,7 @@ struct PomodoroTimerApp: View {
     }
 }
 
-// ✅ Timer Display Component
+// timer display component
 struct TimerView: View {
     var timeRemaining: Int
 
@@ -73,13 +82,12 @@ struct TimerView: View {
         let seconds = timeRemaining % 60
 
         return Text(String(format: "%02d:%02d", minutes, seconds))
-            .font(.system(size: 60, weight: .bold))
-            .foregroundColor(.white)
-            .padding()
+            .font(.system(size: 40, weight: .bold))
+            .foregroundColor(.black)
     }
 }
 
-// ✅ Mode Selection Button
+// mode selection button
 struct PomodoroModeButton: View {
     var title: String
     var mode: PomodoroMode
@@ -102,35 +110,41 @@ struct PomodoroModeButton: View {
     }
 }
 
-// ✅ Task List Component
+// Task List Component
 struct TaskListView: View {
     @Binding var tasks: [TaskItem]
     @State private var newTask: String = ""
 
     var body: some View {
         VStack {
-            Text("Tasks")
-                .font(.title2)
-                .foregroundColor(.white)
+            Spacer()
+            VStack {
+                Text("Tasks")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
 
-            HStack {
-                TextField("Add Task", text: $newTask)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                Button(action: {
-                    if !newTask.isEmpty {
-                        tasks.append(TaskItem(text: newTask))
-                        newTask = ""
+                // task Input
+                HStack {
+                    TextField("Add Task", text: $newTask)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(height: 40)
+                    Button(action: {
+                        if !newTask.isEmpty {
+                            tasks.append(TaskItem(text: newTask))
+                            newTask = ""
+                        }
+                    }) {
+                        Text("+")
+                            .frame(width: 40, height: 40)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                     }
-                }) {
-                    Text("+")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
                 }
             }
-            .padding()
 
+            // task List
             List {
                 ForEach(tasks.indices, id: \.self) { index in
                     HStack {
@@ -138,10 +152,11 @@ struct TaskListView: View {
                             tasks[index].completed.toggle()
                         }) {
                             Image(systemName: tasks[index].completed ? "checkmark.square.fill" : "square")
-                                .foregroundColor(tasks[index].completed ? .green : .white)
+                                .foregroundColor(tasks[index].completed ? .green : .black) // checkbox remains visible
                         }
                         Text(tasks[index].text)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
+                            .font(.headline)
                     }
                 }
             }
@@ -150,14 +165,14 @@ struct TaskListView: View {
     }
 }
 
-// ✅ Task Model
+// Task Model
 struct TaskItem: Identifiable {
     let id = UUID()
     var text: String
     var completed: Bool = false
 }
 
-// ✅ Pomodoro Modes
+// Pomodoro Modes
 enum PomodoroMode: Int {
     case pomodoro = 1500   // 25 minutes
     case shortBreak = 300  // 5 minutes
