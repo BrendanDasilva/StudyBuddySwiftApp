@@ -14,27 +14,33 @@ struct TaskListItem: View {
 
     var body: some View {
         HStack {
-            // toggle button to mark task as complete or incomplete
-            Button(action: toggleCompletion) {
-                Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(task.isCompleted ? .green : .gray)
-            }
-            .buttonStyle(BorderlessButtonStyle())
+            // make the entire left side of the row (toggle + text) tappable for completion toggle
+            HStack {
+                Button(action: toggleCompletion) {
+                    Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(task.isCompleted ? .green : .gray)
+                }
+                .buttonStyle(BorderlessButtonStyle())
 
-            // task text with strikethrough if completed
-            Text(task.text)
-                .strikethrough(task.isCompleted, color: .black)
-                .foregroundColor(.black)
+                Text(task.text)
+                    .strikethrough(task.isCompleted, color: .black)
+                    .foregroundColor(.black)
+            }
+            .contentShape(Rectangle()) // ensures only this part toggles completion
+            .onTapGesture {
+                toggleCompletion()
+            }
 
             Spacer()
 
-            // delete button (red trash icon)
+            // delete button - only the icon should be clickable
             Button(action: deleteTask) {
                 Image(systemName: "trash")
                     .foregroundColor(.red)
             }
+            .buttonStyle(BorderlessButtonStyle()) // ensures no extra tap area
         }
         .padding(6)
         .frame(maxWidth: .infinity)

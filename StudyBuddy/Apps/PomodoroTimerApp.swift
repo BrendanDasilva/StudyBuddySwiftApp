@@ -7,21 +7,24 @@
 
 import SwiftUI
 
+// main view for the pomodoro timer app
 struct PomodoroTimerApp: View {
-    @State private var mode: PomodoroMode = .pomodoro
-    @State private var timeRemaining: Int = PomodoroMode.pomodoro.rawValue
-    @State private var isActive: Bool = false
-    @State private var tasks: [ToDoItem] = []
+    @State private var mode: PomodoroMode = .pomodoro // current mode (pomodoro, short break, long break)
+    @State private var timeRemaining: Int = PomodoroMode.pomodoro.rawValue // remaining time in seconds
+    @State private var isActive: Bool = false // tracks if the timer is running
+    @State private var tasks: [ToDoItem] = [] // list of tasks
 
     var body: some View {
         VStack {
             ZStack {
+                // white background box for the timer
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.white)
                     .frame(width: 360, height: 320)
                     .shadow(radius: 5)
 
                 VStack {
+                    // pomodoro mode selection buttons
                     PomodoroModeButton(title: "Pomodoro", mode: .pomodoro, currentMode: $mode, timeRemaining: $timeRemaining, isActive: $isActive)
                     
                     HStack {
@@ -30,8 +33,10 @@ struct PomodoroTimerApp: View {
                     }
                     .padding()
 
+                    // displays the countdown timer
                     TimerView(timeRemaining: timeRemaining)
 
+                    // start/pause button
                     Button(action: {
                         isActive.toggle()
                     }) {
@@ -47,6 +52,7 @@ struct PomodoroTimerApp: View {
             }
             .padding()
 
+            // task list component
             TaskListView(tasks: $tasks)
         }
         .padding()
@@ -56,6 +62,7 @@ struct PomodoroTimerApp: View {
         }
     }
 
+    // starts the timer and decrements the time every second
     private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             if isActive && timeRemaining > 0 {
@@ -69,10 +76,10 @@ struct PomodoroTimerApp: View {
     }
 }
 
-// updated task list component using TaskListItem
+// task list component
 struct TaskListView: View {
-    @Binding var tasks: [ToDoItem]
-    @State private var newTask: String = ""
+    @Binding var tasks: [ToDoItem] // list of tasks
+    @State private var newTask: String = "" // stores user input for new task
 
     var body: some View {
         VStack {
@@ -83,6 +90,7 @@ struct TaskListView: View {
                     .fontWeight(.bold)
                     .foregroundColor(.white)
 
+                // input field and add task button
                 HStack {
                     TextField("Add Task", text: $newTask)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -103,6 +111,7 @@ struct TaskListView: View {
                 }
             }
 
+            // list of tasks
             ZStack {
                 List {
                     ForEach(sortedTasks.indices, id: \.self) { index in
@@ -125,12 +134,14 @@ struct TaskListView: View {
         tasks.sorted { !$0.isCompleted && $1.isCompleted }
     }
 
+    // toggles task completion status
     private func toggleTaskCompletion(for task: ToDoItem) {
         if let index = tasks.firstIndex(where: { $0.id == task.id }) {
             tasks[index].isCompleted.toggle()
         }
     }
 
+    // removes a task from the list
     private func removeTask(for task: ToDoItem) {
         if let index = tasks.firstIndex(where: { $0.id == task.id }) {
             tasks.remove(at: index)
@@ -175,6 +186,7 @@ struct PomodoroModeButton: View {
     }
 }
 
+// enum representing different pomodoro modes and their durations
 enum PomodoroMode: Int {
     case pomodoro = 1500   // 25 minutes
     case shortBreak = 300  // 5 minutes
