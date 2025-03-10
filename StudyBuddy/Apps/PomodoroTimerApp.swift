@@ -2,7 +2,8 @@
 //  PomodoroTimerApp.swift
 //  StudyBuddy
 //
-
+//  Created by Brendan Dasilva on 2025-03-10.
+//
 
 import SwiftUI
 
@@ -10,7 +11,7 @@ struct PomodoroTimerApp: View {
     @State private var mode: PomodoroMode = .pomodoro
     @State private var timeRemaining: Int = PomodoroMode.pomodoro.rawValue
     @State private var isActive: Bool = false
-    @State private var tasks: [TaskItem] = []
+    @State private var tasks: [ToDoItem] = []
 
     var body: some View {
         VStack {
@@ -21,7 +22,6 @@ struct PomodoroTimerApp: View {
                     .shadow(radius: 5)
 
                 VStack {
-                    // mode selection buttons
                     PomodoroModeButton(title: "Pomodoro", mode: .pomodoro, currentMode: $mode, timeRemaining: $timeRemaining, isActive: $isActive)
                     
                     HStack {
@@ -30,10 +30,8 @@ struct PomodoroTimerApp: View {
                     }
                     .padding()
 
-                    // timer display
                     TimerView(timeRemaining: timeRemaining)
 
-                    // start/pause button
                     Button(action: {
                         isActive.toggle()
                     }) {
@@ -49,7 +47,6 @@ struct PomodoroTimerApp: View {
             }
             .padding()
 
-            // task list
             TaskListView(tasks: $tasks)
         }
         .padding()
@@ -59,7 +56,6 @@ struct PomodoroTimerApp: View {
         }
     }
 
-    // timer functionality
     private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             if isActive && timeRemaining > 0 {
@@ -69,6 +65,75 @@ struct PomodoroTimerApp: View {
                 isActive = false
                 timer.invalidate()
             }
+        }
+    }
+}
+
+// updated task list component using TaskListItem
+struct TaskListView: View {
+    @Binding var tasks: [ToDoItem]
+    @State private var newTask: String = ""
+
+    var body: some View {
+        VStack {
+            Spacer()
+            VStack {
+                Text("Tasks")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+
+                HStack {
+                    TextField("Add Task", text: $newTask)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(height: 40)
+                    
+                    Button(action: {
+                        if !newTask.isEmpty {
+                            tasks.append(ToDoItem(text: newTask, isCompleted: false))
+                            newTask = ""
+                        }
+                    }) {
+                        Text("+")
+                            .frame(width: 40, height: 40)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                }
+            }
+
+            ZStack {
+                List {
+                    ForEach(sortedTasks.indices, id: \.self) { index in
+                        TaskListItem(
+                            task: sortedTasks[index],
+                            toggleCompletion: { toggleTaskCompletion(for: sortedTasks[index]) },
+                            deleteTask: { removeTask(for: sortedTasks[index]) }
+                        )
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .frame(width: 360)
+            }
+            .padding()
+        }
+    }
+
+    // computed property to sort tasks (unchecked first, checked last)
+    private var sortedTasks: [ToDoItem] {
+        tasks.sorted { !$0.isCompleted && $1.isCompleted }
+    }
+
+    private func toggleTaskCompletion(for task: ToDoItem) {
+        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
+            tasks[index].isCompleted.toggle()
+        }
+    }
+
+    private func removeTask(for task: ToDoItem) {
+        if let index = tasks.firstIndex(where: { $0.id == task.id }) {
+            tasks.remove(at: index)
         }
     }
 }
@@ -110,71 +175,12 @@ struct PomodoroModeButton: View {
     }
 }
 
-// Task List Component
-struct TaskListView: View {
-    @Binding var tasks: [TaskItem]
-    @State private var newTask: String = ""
-
-    var body: some View {
-        VStack {
-            Spacer()
-            VStack {
-                Text("Tasks")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-
-                // task Input
-                HStack {
-                    TextField("Add Task", text: $newTask)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(height: 40)
-                    Button(action: {
-                        if !newTask.isEmpty {
-                            tasks.append(TaskItem(text: newTask))
-                            newTask = ""
-                        }
-                    }) {
-                        Text("+")
-                            .frame(width: 40, height: 40)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                }
-            }
-
-            // task List
-            List {
-                ForEach(tasks.indices, id: \.self) { index in
-                    HStack {
-                        Button(action: {
-                            tasks[index].completed.toggle()
-                        }) {
-                            Image(systemName: tasks[index].completed ? "checkmark.square.fill" : "square")
-                                .foregroundColor(tasks[index].completed ? .green : .black) // checkbox remains visible
-                        }
-                        Text(tasks[index].text)
-                            .foregroundColor(.black)
-                            .font(.headline)
-                    }
-                }
-            }
-            .scrollContentBackground(.hidden)
-        }
-    }
-}
-
-// Task Model
-struct TaskItem: Identifiable {
-    let id = UUID()
-    var text: String
-    var completed: Bool = false
-}
-
-// Pomodoro Modes
 enum PomodoroMode: Int {
     case pomodoro = 1500   // 25 minutes
     case shortBreak = 300  // 5 minutes
     case longBreak = 900   // 15 minutes
+}
+
+#Preview {
+    PomodoroTimerApp()
 }
