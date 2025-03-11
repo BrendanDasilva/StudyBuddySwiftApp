@@ -8,39 +8,37 @@
 import SwiftUI
 
 struct TaskListItem: View {
-    var task: ToDoItem
+    var task: ToDoTask
     var toggleCompletion: () -> Void
     var deleteTask: () -> Void
 
     var body: some View {
         HStack {
-            // make the entire left side of the row (toggle + text) tappable for completion toggle
+            // tappable area for completion toggle
             HStack {
                 Button(action: toggleCompletion) {
-                    Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
+                    Image(systemName: task.completed ? "checkmark.circle.fill" : "circle")
                         .resizable()
                         .frame(width: 20, height: 20)
-                        .foregroundColor(task.isCompleted ? .green : .gray)
+                        .foregroundColor(task.completed ? .green : .gray)
                 }
                 .buttonStyle(BorderlessButtonStyle())
 
-                Text(task.text)
-                    .strikethrough(task.isCompleted, color: .black)
+                Text(task.text ?? "")
+                    .strikethrough(task.completed, color: .black)
                     .foregroundColor(.black)
             }
-            .contentShape(Rectangle()) // ensures only this part toggles completion
-            .onTapGesture {
-                toggleCompletion()
-            }
+            .contentShape(Rectangle())
+            .onTapGesture { toggleCompletion() }
 
             Spacer()
 
-            // delete button - only the icon should be clickable
+            // delete button
             Button(action: deleteTask) {
                 Image(systemName: "trash")
                     .foregroundColor(.red)
             }
-            .buttonStyle(BorderlessButtonStyle()) // ensures no extra tap area
+            .buttonStyle(BorderlessButtonStyle())
         }
         .padding(6)
         .frame(maxWidth: .infinity)
