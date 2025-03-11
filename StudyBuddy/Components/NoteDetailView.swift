@@ -6,30 +6,40 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct NoteDetailView: View {
-    @State var note: Note // current note being edited
-    @Binding var notes: [Note]
-    @Environment(\.presentationMode) var presentationMode // handles back navigation
-
+    @Environment(\.managedObjectContext) private var viewContext
+    @Binding var isPresented: Bool
+    @State private var text: String
+    private var note: NoteEntity?
+    
+    // MARK: - Initializer for Core Data integration
+    init(note: NoteEntity?, isPresented: Binding<Bool>) {
+        self._isPresented = isPresented
+        self.note = note
+        self._text = State(initialValue: note?.text ?? "")
+    }
+    
     var body: some View {
         VStack {
-            Text("Edit Note")
+            Text(note == nil ? "New Note" : "Edit Note")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
                 .padding()
-
-            TextEditor(text: $note.text)
+            
+            TextEditor(text: $text)
                 .frame(height: 300)
                 .padding()
                 .background(Color.white)
                 .cornerRadius(10)
-
-            // Save Button
+                .foregroundColor(.black)
+            
+            // MARK: - Save Button
             Button(action: {
                 saveNote()
-                presentationMode.wrappedValue.dismiss() // return to notes list
+                isPresented = false
             }) {
                 Text("Save Note")
                     .font(.headline)
@@ -44,13 +54,26 @@ struct NoteDetailView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
     }
-
-    // save or update note
+    
+    // MARK: - Core Data Operations
     private func saveNote() {
-        if let index = notes.firstIndex(where: { $0.id == note.id }) {
-            notes[index] = note // update existing note
+        let currentNote: NoteEntity
+        
+        if let existingNote = note {
+            // Update existing note
+            currentNote = existingNote
         } else {
-            notes.append(note) // save new note
+            // Create new note entity
+            currentNote = NoteEntity(context: viewContext)
+            currentNote.id = UUID()
+        }
+        
+        currentNote.text = text
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error saving note: \(error)")
         }
     }
 }
