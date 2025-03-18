@@ -14,6 +14,7 @@ class CoreDataManager {
     let container: NSPersistentContainer
 
     init() {
+        NSArrayTransformer.register()
         container = NSPersistentContainer(name: "StudyBuddyDataModel")
         container.loadPersistentStores { _, error in
             if let error = error {

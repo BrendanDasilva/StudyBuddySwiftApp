@@ -4,35 +4,46 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ViewGroupsView: View {
-    let myGroups = [
-        ("AI Enthusiasts", ["Machine Learning", "Deep Learning"], 7, true),
-        ("Web Dev Crew", ["React", "Node.js"], 10, false),
-        ("Study Ninjas", ["Calculus", "Statistics"], 6, true),
-        ("Data Science Hub", ["Python", "Data Analysis"], 12, false)
-    ]
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \StudyGroup.createdAt, ascending: false)],
+        predicate: NSPredicate(format: "isMember == YES"),
+        animation: .default
+    ) private var groups: FetchedResults<StudyGroup>
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            Text("Your Study Groups")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+        NavigationView {
+            ZStack {
+                Color(hex: "8AACEA").ignoresSafeArea()
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("Your Study Groups")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
 
-            ScrollView {
-                VStack(spacing: 10) {
-                    ForEach(myGroups, id: \.0) { group in
-                        GroupTile(groupName: group.0, studyTopics: group.1, members: group.2, isOpen: group.3)
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            ForEach(groups) { group in
+                                GroupTile(group: group, isJoined: true)
+                            }
+                        }
+                        .padding(.horizontal)
                     }
-                }
-            }
 
-            Spacer()
+                    Spacer()
+                }
+                .padding()
+            }
         }
-        .padding()
-        .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
     }
 }
 
-
+// Preview
+#Preview {
+    ViewGroupsView()
+}
