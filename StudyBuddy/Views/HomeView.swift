@@ -31,7 +31,7 @@ struct HomeView: View {
                     VStack(spacing: 15) {
                         NavigationLink(destination: LoginView()) {
                             Text("Login")
-                                .font(.custom("Menlo", size: 16))
+                                .font(.custom("Menlo-Bold", size: 16))
                                 .frame(width: 300, height: 50)
                                 .background(Color.clear)
                                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(#colorLiteral(red: 0.1701194298, green: 0.1297623498, blue: 0.2721540133, alpha: 1)), lineWidth: 2))
@@ -41,7 +41,7 @@ struct HomeView: View {
 
                         NavigationLink(destination: RegisterView()) {
                             Text("Sign Up")
-                                .font(.custom("Menlo", size: 16))
+                                .font(.custom("Menlo-Bold", size: 16))
                                 .frame(width: 300, height: 50)
                                 .background(Color.clear)
                                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(#colorLiteral(red: 0.1701194298, green: 0.1297623498, blue: 0.2721540133, alpha: 1)), lineWidth: 2))
