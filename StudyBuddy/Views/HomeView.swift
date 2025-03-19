@@ -18,6 +18,15 @@ struct HomeView: View {
                         .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                         .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 8, x: 0, y: 8)
                         .multilineTextAlignment(.center)
+ //--------------- Kailie : tying to reduce alignment between "STUDY and "BUDDY" with .padding(.zero) or .linespacing(0)
+//                              >> tried placing into a separate HSTACK and VSTACK (will address later)
+//                    Text("BUDDY")
+//                        .padding(.zero)
+//                        .lineLimit(nil)
+//                        .font(.custom("Anybody SemiBold", size: 96))
+//                        .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+//                        .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 8, x: 0, y: 8)
+//                        .multilineTextAlignment(.center)
 
                     VStack(spacing: 15) {
                         NavigationLink(destination: LoginView()) {
