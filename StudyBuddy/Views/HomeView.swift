@@ -14,8 +14,7 @@ struct HomeView: View {
                 Color(hex: "8AACEA").edgesIgnoringSafeArea(.all)
                 VStack(spacing: 30) {
                     Text("STUDY\nBUDDY")
-                        .font(.custom("Anybody", size: 96)) //<--- Kailie: custom font imported, must be a misconfig as it is not loading properly.
-                        .fixedSize()
+                        .font(.custom("HelveticaNeue-Bold", size: 96)) //<--- Kailie: custom font imported, must be a misconfig as it is not loading properly.
                         .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                         .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 8, x: 0, y: 8)
                         .multilineTextAlignment(.center)
@@ -32,6 +31,7 @@ struct HomeView: View {
                     VStack(spacing: 15) {
                         NavigationLink(destination: LoginView()) {
                             Text("Login")
+                                .font(.custom("Menlo", size: 16))
                                 .frame(width: 300, height: 50)
                                 .background(Color.clear)
                                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(#colorLiteral(red: 0.3562943339, green: 0.2727283835, blue: 0.5644717216, alpha: 1)), lineWidth: 2))
@@ -41,6 +41,7 @@ struct HomeView: View {
 
                         NavigationLink(destination: RegisterView()) {
                             Text("Sign Up")
+                                .font(.custom("Menlo", size: 16))
                                 .frame(width: 300, height: 50)
                                 .background(Color.clear)
                                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(#colorLiteral(red: 0.3562943339, green: 0.2727283835, blue: 0.5644717216, alpha: 1)), lineWidth: 2))
