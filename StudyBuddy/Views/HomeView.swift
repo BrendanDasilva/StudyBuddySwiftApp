@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var navigateToRegister = false  // Declare the state variable 
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(hex: "8AACEA").edgesIgnoringSafeArea(.all)
+
                 VStack(spacing: 30) {
                     Text("STUDY\nBUDDY")
                         .font(.system(size: 50, weight: .bold))
@@ -27,7 +30,7 @@ struct HomeView: View {
                                 .foregroundColor(.white)
                         }
 
-                        NavigationLink(destination: RegisterView()) {
+                        NavigationLink(destination: RegisterView(navigateBackToLogin: $navigateToRegister)) {
                             Text("Sign Up")
                                 .frame(width: 200, height: 50)
                                 .background(Color.clear)
@@ -41,9 +44,6 @@ struct HomeView: View {
     }
 }
 
-
 #Preview {
-    Group {
-        HomeView()
-    }
+    HomeView()
 }
