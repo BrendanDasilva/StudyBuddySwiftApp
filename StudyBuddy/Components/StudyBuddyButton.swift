@@ -22,7 +22,7 @@ struct StudyBuddyButton<Destination: View>: View {
                 Spacer()
 
                 Text(text) //<--- kailie: consider using a label to maintain size of text with label
-                    .font(.custom("Menlo", size: 15))
+                    .font(.custom("Menlo-Bold", size: 15))
                     .foregroundColor(.white)
                     .padding()
 
