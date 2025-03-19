@@ -19,7 +19,7 @@ struct LoginView: View {
                 Text("STUDY\nBUDDY")
 //                    .fontWeight(.heavy) //<---- I have to figure out why the text isnt bolding
                     .padding(.top, 180)
-                    .font(.custom("Anybody SemiBold", size: 96))
+                    .font(.custom("Anybody-Bold", size: 96))
                     .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                     .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 8, x: 0, y: 8)
                     .multilineTextAlignment(.center)

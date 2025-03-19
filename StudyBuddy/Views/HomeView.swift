@@ -14,7 +14,8 @@ struct HomeView: View {
                 Color(hex: "8AACEA").edgesIgnoringSafeArea(.all)
                 VStack(spacing: 30) {
                     Text("STUDY\nBUDDY")
-                        .font(.custom("Anybody SemiBold", size: 96))
+                        .font(.custom("Anybody-Bold", size: 96))
+                        .fixedSize()
                         .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                         .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 8, x: 0, y: 8)
                         .multilineTextAlignment(.center)

@@ -19,16 +19,21 @@ struct StudyAppsView: View {
 
     var body: some View {
         VStack {
-            Text("Study Apps")
-                .font(.largeTitle)
+            Text("STUDY APPS")
+                .padding(.top, 80)
+                .font(.custom("Anybody", size: 40))
+                .fontWeight(.bold)
+                .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 4, x: 0, y: 4)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
-                .padding(.top, 20)
+                .padding(.bottom, 20)
 
             // ✅ Grid Layout with Navigation
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(studyApps, id: \.0) { app in
                     StudyAppGridButton(title: app.0, destination: app.1)
+                    
                 }
             }
             .padding(.horizontal, 20)
@@ -39,5 +44,9 @@ struct StudyAppsView: View {
         .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
     }
 }
-
+struct StudyAppsView_Preview: PreviewProvider {
+    static var previews: some View {
+        StudyAppsView()
+    }
+}
 

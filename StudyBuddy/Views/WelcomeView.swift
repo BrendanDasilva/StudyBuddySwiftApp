@@ -15,7 +15,8 @@ struct WelcomeView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
                         Text("Welcome,\nUser123456")
-                            .font(.custom("Anybody SemiBold", size: 36))
+                            .font(.custom("Anybody", size: 36))
+                            .fontWeight(.bold)
                             .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                             .shadow(color: Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)), radius: 4, x: 0, y: 4)
                             .multilineTextAlignment(.leading)
