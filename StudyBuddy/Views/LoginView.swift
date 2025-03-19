@@ -17,33 +17,39 @@ struct LoginView: View {
             Color(hex: "8AACEA").edgesIgnoringSafeArea(.all)
             VStack(spacing: 30) {
                 Text("STUDY\nBUDDY")
-//                    .fontWeight(.heavy) //<---- I have to figure out why the text isnt bolding
                     .padding(.top, 180)
-                    .font(.custom("Anybody-Bold", size: 96))
+                    .font(.custom("HelveticaNeue-Bold", size: 96))
+//                    .font(.custom("Anybody", size: 96)) //<--- need to figure out custom font misconfiguration
                     .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                     .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 8, x: 0, y: 8)
                     .multilineTextAlignment(.center)
                 
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Email").foregroundColor(.white)
+                        .font(.custom("Menlo", size: 16))
                     TextField("user@domain.com", text: $email)
-                        .font(.custom("Inter Regular", size: 16))
+                        .font(.custom("Menlo", size: 16))
+//                        .font(.custom("Inter Regular", size: 16))
                         .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
                     Text("Password").foregroundColor(.white)
+                        .font(.custom("Menlo", size: 16))
                     SecureField("******", text: $password)
-                        .font(.custom("Inter Regular", size: 16))
+                        .font(.custom("Menlo", size: 16))
+//                        .font(.custom("Inter Regular", size: 16))
                         .foregroundColor(Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
                     Toggle("Remember Me", isOn: $rememberMe)
-                        .font(.custom("Inter Regular", size: 15))
+                        .font(.custom("Menlo", size: 16))
+//                        .font(.custom("Inter Regular", size: 15))
                         .foregroundColor(.white)
                 }
                 .padding(.horizontal, 30)
                 
                 Button("Login") {}
+                    .font(.custom("Menlo", size: 16))
                     .frame(width: 200, height: 50)
                     .background(Color(#colorLiteral(red: 0.393171072, green: 0.3069542646, blue: 0.6261011958, alpha: 1)))
                     .cornerRadius(10)
