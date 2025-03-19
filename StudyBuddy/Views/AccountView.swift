@@ -14,12 +14,11 @@ struct AccountView: View {
                     .resizable()
                     .frame(width: 150, height: 150)
                     .foregroundColor(.white)
-                    .padding(.top, 20)
+                    .padding(.top, 40)
                     .shadow(color: Color(#colorLiteral(red: 0.3432517467, green: 0.42835429, blue: 0.5897996155, alpha: 1)), radius: 8, x: 8, y: 8)
 
                 Text("User123456")
                     .font(.custom("HeleticaNeue-Medium", size: 40))
-                    .fontWeight(.bold)
                     .foregroundColor(.white)
 
                 Text("user@example.com")
@@ -89,7 +88,7 @@ struct AccountView: View {
                         Label("Log Out", systemImage: "arrow.backward.circle.fill")
                             .foregroundColor(.red)
                     }
-                    .font(.custom("Menlo-Bold", size: 15))
+                    .font(.custom("Menlo-Bold", size: 18))
                     .shadow(color: Color(#colorLiteral(red: 0.7712476326, green: 0.179381073, blue: 0.1504877813, alpha: 0.5655008278)), radius: 3, x: -3, y: -3)
                 }
             }
