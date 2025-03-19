@@ -51,7 +51,7 @@ struct LoginView: View {
                 Button("Login") {}
                     .font(.custom("Menlo", size: 16))
                     .frame(width: 200, height: 50)
-                    .background(Color(#colorLiteral(red: 0.393171072, green: 0.3069542646, blue: 0.6261011958, alpha: 1)))
+                    .background(Color(#colorLiteral(red: 0.534640789, green: 0.4167757928, blue: 0.865655005, alpha: 1)))
                     .cornerRadius(10)
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(#colorLiteral(red: 0.3562943339, green: 0.2727283835, blue: 0.5644717216, alpha: 1)), lineWidth: 2))
                     .shadow(color: Color(#colorLiteral(red: 0.5065329075, green: 0.6072123051, blue: 0.8504791856, alpha: 1)), radius: 2, x: 0, y: 2)
