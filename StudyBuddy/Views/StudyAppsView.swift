@@ -21,7 +21,7 @@ struct StudyAppsView: View {
         VStack {
             Text("STUDY APPS")
                 .padding(.top, 80)
-                .font(.custom("HelveticaNeue-Bold", size: 40))
+                .font(.custom("HelveticaNeue-Bold", size: 50))
                 .fontWeight(.bold)
                 .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                 .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 4, x: 0, y: 4)
