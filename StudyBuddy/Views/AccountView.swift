@@ -29,7 +29,9 @@ struct AccountView: View {
 
             // Settings & Preferences
             List {
-                Section(header: Text("Settings").foregroundColor(.white)) {
+                Section(header: Text("Settings")
+                    .font(.custom("Menlo", size: 20))
+                    .foregroundColor(.white)) {
                     Button(action: {
                         print("Change Password Tapped")
                     }) {
@@ -46,11 +48,14 @@ struct AccountView: View {
                         Label("Theme Selection", systemImage: "paintbrush.fill")
                     }
                 }
+                .padding(.bottom, 2)
                 .font(.custom("Menlo", size: 15))
                 .shadow(color: Color(#colorLiteral(red: 0.5314670139, green: 0.5314670139, blue: 0.5314670139, alpha: 0.707910803)), radius: 3, x: -3, y: -3)
 
                 // App Data Management
-                Section(header: Text("App Data").foregroundColor(.white)) {
+                Section(header: Text("App Data")
+                    .font(.custom("Menlo", size: 20))
+                    .foregroundColor(.white)) {
                     Button(action: {
                         print("View Study Groups Tapped")
                     }) {
@@ -62,11 +67,14 @@ struct AccountView: View {
                         Label("Clear Cached Data", systemImage: "trash.fill")
                     }
                 }
+                .padding(.bottom, 2)
                 .font(.custom("Menlo", size: 15))
                 .shadow(color: Color(#colorLiteral(red: 0.5314670139, green: 0.5314670139, blue: 0.5314670139, alpha: 0.707910803)), radius: 3, x: -3, y: -3)
 
                 // Support & About
-                Section(header: Text("Support & About").foregroundColor(.white)) {
+                Section(header: Text("Support & About")
+                    .font(.custom("Menlo", size: 20))
+                    .foregroundColor(.white)) {
                     Button(action: {
                         print("Contact Support Tapped")
                     }) {
@@ -78,8 +86,10 @@ struct AccountView: View {
                         Label("Terms & Conditions", systemImage: "doc.text.fill")
                     }
                 }
+                .padding(.bottom, 2)
                 .font(.custom("Menlo", size: 15))
                 .shadow(color: Color(#colorLiteral(red: 0.5314670139, green: 0.5314670139, blue: 0.5314670139, alpha: 0.707910803)), radius: 3, x: -3, y: -3)
+                
 
                 Section {
                     Button(action: {
