@@ -26,17 +26,23 @@ struct CreateGroupView: View {
         VStack(alignment: .leading, spacing: 15) {
             // MARK: - Header
             Text("Create a Study Group")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(.custom("HelveticaNeue-Bold", size: 40))
+                .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 4, x: 0, y: -4)
+//                .fontWeight(.bold)
                 .foregroundColor(.white)
                 .padding(.bottom, 10)
 
             // MARK: - Group Name Input
             VStack(alignment: .leading, spacing: 5) {
                 Text("Group Name")
+                    .font(.custom("Menlo-Bold", size: 25))
                     .foregroundColor(.white.opacity(0.8))
+                
                 TextField("Study Group Name", text: $groupName)
+                    .font(.custom("Menlo", size: 14))
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .shadow(color: Color(#colorLiteral(red: 0.1370129638, green: 0.1044493588, blue: 0.2434654624, alpha: 0.5061568709)), radius: 2, x: -2, y: -2)
                     .padding(.vertical, 5)
                 Text("Required • 3-25 characters")
                     .font(.caption)
@@ -46,6 +52,7 @@ struct CreateGroupView: View {
             // MARK: - Feature Selection
             VStack(alignment: .leading, spacing: 10) {
                 Text("Include Features")
+                    .font(.custom("Menlo-Bold", size: 25))
                     .foregroundColor(.white.opacity(0.8))
                 ForEach(availableFeatures, id: \.self) { feature in
                     HStack {
@@ -55,6 +62,7 @@ struct CreateGroupView: View {
                             .foregroundColor(.purple)
                             .onTapGesture { toggleFeature(feature) }
                         Text(feature)
+                            .font(.custom("Menlo", size: 20))
                             .foregroundColor(.white)
                             .font(.headline)
                     }
@@ -65,12 +73,15 @@ struct CreateGroupView: View {
             // MARK: - Study Topics Section
             VStack(alignment: .leading, spacing: 10) {
                 Text("Study Topics")
+                    .font(.custom("Menlo-Bold", size: 25))
                     .foregroundColor(.white.opacity(0.8))
                 
                 // Input Row
                 HStack {
                     TextField("Add topic (e.g., Calculus)", text: $newTopic)
+                        .font(.custom("Menlo", size: 14))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .shadow(color: Color(#colorLiteral(red: 0.1370129638, green: 0.1044493588, blue: 0.2434654624, alpha: 0.5061568709)), radius: 2, x: -2, y: -2)
                     Button(action: addTopic) {
                         Image(systemName: "plus.circle.fill")
                             .resizable()
@@ -110,16 +121,16 @@ struct CreateGroupView: View {
                 HStack {
                     Spacer()
                     Text("Create Group")
-                        .font(.headline)
+                        .font(.custom("Menlo-Bold", size: 18))
                         .foregroundColor(.white)
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.white)
                     Spacer()
                 }
                 .padding()
-                .background(groupName.isEmpty ? Color.gray : Color.blue)
+                .background(groupName.isEmpty ? Color(#colorLiteral(red: 0.534640789, green: 0.4167757928, blue: 0.865655005, alpha: 1)) : Color.blue)
                 .cornerRadius(15)
-                .shadow(radius: 3)
+                .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 3, x: -3, y: -3)
             }
             .disabled(groupName.isEmpty)
             .padding(.bottom, 20)
