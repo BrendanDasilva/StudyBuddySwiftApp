@@ -29,9 +29,32 @@
 		685F6D992D773A2100A81DF1 /* StudyBuddyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StudyBuddyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4F6A47242D8B559C00227E5A /* Exceptions for "StudyBuddy" folder in "StudyBuddyTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Anybody-Bold.ttf",
+				"Anybody-Regular.ttf",
+			);
+			target = 685F6D8E2D773A2100A81DF1 /* StudyBuddyTests */;
+		};
+		4F6A47252D8B559C00227E5A /* Exceptions for "StudyBuddy" folder in "StudyBuddyUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Anybody-Bold.ttf",
+				"Anybody-Regular.ttf",
+			);
+			target = 685F6D982D773A2100A81DF1 /* StudyBuddyUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		685F6D812D773A2000A81DF1 /* StudyBuddy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4F6A47242D8B559C00227E5A /* Exceptions for "StudyBuddy" folder in "StudyBuddyTests" target */,
+				4F6A47252D8B559C00227E5A /* Exceptions for "StudyBuddy" folder in "StudyBuddyUITests" target */,
+			);
 			path = StudyBuddy;
 			sourceTree = "<group>";
 		};

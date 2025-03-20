@@ -203,3 +203,9 @@ struct CreateGroupView: View {
         showErrorAlert = true
     }
 }
+
+struct CreateGroupView_Preview: PreviewProvider {
+    static var previews: some View {
+        CreateGroupView()  
+    }
+}
