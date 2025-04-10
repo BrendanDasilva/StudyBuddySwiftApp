@@ -12,47 +12,57 @@ struct RegisterView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var registrationError: String?
+    @State private var isLoggedIn = false
 
     var body: some View {
-        ZStack {
-            Color(hex: "8AACEA").edgesIgnoringSafeArea(.all)
-            VStack(spacing: 20) {
-                Text("STUDY\nBUDDY")
-                    .font(.system(size: 40, weight: .bold))
+        NavigationStack {
+            ZStack {
+                Color(hex: "8AACEA").edgesIgnoringSafeArea(.all)
+                VStack(spacing: 20) {
+                    Text("STUDY\nBUDDY")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Username").foregroundColor(.white)
+                        TextField("user1234", text: $username)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                        Text("Email").foregroundColor(.white)
+                        TextField("user@domain.com", text: $email)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                        Text("Password").foregroundColor(.white)
+                        SecureField("******", text: $password)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                    .padding(.horizontal, 30)
+
+                    Button("Register") {
+                        registerUser()
+                    }
+                    .frame(width: 200, height: 50)
+                    .background(Color.purple)
+                    .cornerRadius(10)
                     .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Username").foregroundColor(.white)
-                    TextField("user1234", text: $username)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    Text("Email").foregroundColor(.white)
-                    TextField("user@domain.com", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    Text("Password").foregroundColor(.white)
-                    SecureField("******", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                .padding(.horizontal, 30)
-                
-                Button("Register") {
-                    registerUser()
-                }
-                .frame(width: 200, height: 50)
-                .background(Color.purple)
-                .cornerRadius(10)
-                .foregroundColor(.white)
 
-                if let registrationError = registrationError {
-                    Text(registrationError)
-                        .foregroundColor(.red)
-                        .font(.caption)
-                        .padding(.top, -10)
-                }
+                    if let registrationError = registrationError {
+                        Text(registrationError)
+                            .foregroundColor(.red)
+                            .font(.caption)
+                            .padding(.top, -10)
+                    }
 
-                Spacer()
+                    Spacer()
+                }
+            }
+            .onChange(of: isLoggedIn) { loggedIn in
+                if loggedIn {
+                    // Navigate to home or main screen after successful registration
+                    // For now, let's just navigate to the LoginView
+                    // This would typically navigate to a home or dashboard screen
+                }
             }
         }
     }
@@ -82,7 +92,7 @@ struct RegisterView: View {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
-                    self.registrationError = error.localizedDescription
+                    self.registrationError = "Error: \(error.localizedDescription)"
                 }
                 return
             }
@@ -94,21 +104,31 @@ struct RegisterView: View {
                 return
             }
 
-            if httpResponse.statusCode == 200 {
-                // Store login info in UserDefaults
-                UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                UserDefaults.standard.set(self.email, forKey: "userEmail")
-                
+            // Check if the status code is 200 or 201 (successful registration)
+            if httpResponse.statusCode == 200 || httpResponse.statusCode == 201 {
                 DispatchQueue.main.async {
-                    // Auto-login and navigate to Home
-                    // Navigate to the login screen with auto-login enabled
-                    // Consider setting `isLoggedIn` to true here
+                    // Store login info in UserDefaults
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    UserDefaults.standard.set(self.email, forKey: "userEmail")
+
+                    // Auto-login and navigate to Home (or another screen)
+                    self.isLoggedIn = true  // Auto-login successful
+                    self.registrationError = "Registration successful!"
                 }
             } else {
-                DispatchQueue.main.async {
-                    self.registrationError = "Failed to register user"
+                // If the response code is not 200/201, show the error from the response body
+                if let data = data, let errorMessage = String(data: data, encoding: .utf8) {
+                    DispatchQueue.main.async {
+                        self.registrationError = "Registration failed: \(errorMessage)"
+                    }
                 }
             }
         }.resume()
+    }
+}
+
+struct RegisterView_Preview: PreviewProvider {
+    static var previews: some View {
+        RegisterView()
     }
 }

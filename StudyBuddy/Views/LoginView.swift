@@ -28,9 +28,9 @@ struct LoginView: View {
                         .multilineTextAlignment(.center)
 
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Email").foregroundColor(.white)
+                        Text("Username").foregroundColor(.white)
                             .font(.custom("Menlo", size: 16))
-                        TextField("user@domain.com", text: $email)
+                        TextField("user1234", text: $email)
                             .font(.custom("Menlo", size: 16))
                             .foregroundColor(.gray)
                             .textFieldStyle(RoundedBorderTextFieldStyle())

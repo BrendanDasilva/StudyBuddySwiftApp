@@ -29,7 +29,6 @@ struct CreateGroupView: View {
                 .font(.custom("HelveticaNeue-Bold", size: 40))
                 .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                 .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 4, x: 0, y: -4)
-//                .fontWeight(.bold)
                 .foregroundColor(.white)
                 .padding(.bottom, 10)
 
@@ -147,7 +146,7 @@ struct CreateGroupView: View {
             )
         }
     }
-    
+
     // MARK: - Core Data Operations
     private func createGroup() {
         guard !groupName.isEmpty else {
@@ -160,6 +159,7 @@ struct CreateGroupView: View {
             return
         }
 
+        // Create Group in Core Data
         let newGroup = StudyGroup(context: viewContext)
         newGroup.id = UUID()
         newGroup.name = groupName.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -171,6 +171,9 @@ struct CreateGroupView: View {
         newGroup.isMember = true
         newGroup.createdAt = Date()
 
+        // Send the new group to the backend via API
+        sendGroupToBackend(group: newGroup)
+
         do {
             try viewContext.save()
             presentationMode.wrappedValue.dismiss()
@@ -181,7 +184,55 @@ struct CreateGroupView: View {
         }
     }
 
-    // MARK: - Helper Functions
+    // MARK: - Helper Functions for Backend Communication
+    private func sendGroupToBackend(group: StudyGroup) {
+        guard let url = NetworkHelper.getBackendURL(endpoint: "/api/groups/create") else {
+            self.showError(message: "Could not find IP address")
+            return
+        }
+
+        let payload = [
+            "name": group.name ?? "",
+            "features": group.features ?? [],
+            "topics": group.topics ?? [],
+            "code": group.code ?? "",
+            "members": group.members,
+            "isOpen": group.isOpen,
+            "isMember": group.isMember,
+            "createdAt": group.createdAt ?? Date()
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: payload) else {
+            self.showError(message: "Invalid group data")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.showError(message: "Failed to send group data to the backend: \(error.localizedDescription)")
+                }
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                DispatchQueue.main.async {
+                    self.showError(message: "Failed to create group on backend")
+                }
+                return
+            }
+
+            DispatchQueue.main.async {
+                self.showError(message: "Group created successfully!")
+            }
+        }.resume()
+    }
+
     private func toggleFeature(_ feature: String) {
         if selectedFeatures.contains(feature) {
             selectedFeatures.removeAll { $0 == feature }
@@ -217,6 +268,6 @@ struct CreateGroupView: View {
 
 struct CreateGroupView_Preview: PreviewProvider {
     static var previews: some View {
-        CreateGroupView()  
+        CreateGroupView()
     }
 }
