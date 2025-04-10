@@ -1,218 +1,112 @@
-//
-//  CreateGroupView.swift
-//  StudyBuddy
-//
-
 import SwiftUI
 import CoreData
 
 struct CreateGroupView: View {
-    // MARK: - Core Data Properties
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
-    // MARK: - State Properties
     @State private var groupName: String = ""
     @State private var selectedFeatures: [String] = []
     @State private var studyTopics: [String] = []
-    @State private var newTopic: String = ""
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
-    
-    // MARK: - Constants
+
     let availableFeatures = ["Courses", "Scheduler", "Pomodoro Timer", "Flash Cards", "To-Do List", "Notes"]
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            // MARK: - Header
-            Text("Create a Study Group")
-                .font(.custom("HelveticaNeue-Bold", size: 40))
-                .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 4, x: 0, y: -4)
-                .foregroundColor(.white)
-                .padding(.bottom, 10)
+            // Group Name Input
+            TextField("Group Name", text: $groupName)
+                .padding()
+                .background(Color.white)
+                .cornerRadius(5)
             
-            // MARK: - Group Name Input
-            VStack(alignment: .leading, spacing: 5) {
-                Text("Group Name")
-                    .font(.custom("Menlo-Bold", size: 25))
-                    .foregroundColor(.white.opacity(0.8))
-                
-                TextField("Study Group Name", text: $groupName)
-                    .font(.custom("Menlo", size: 14))
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .shadow(color: Color(#colorLiteral(red: 0.1370129638, green: 0.1044493588, blue: 0.2434654624, alpha: 0.5061568709)), radius: 2, x: -2, y: -2)
-                    .padding(.vertical, 5)
-                Text("Required • 3-25 characters")
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
-            }
-            
-            // MARK: - Feature Selection
-            VStack(alignment: .leading, spacing: 10) {
+            // Feature Selection
+            VStack(alignment: .leading) {
                 Text("Include Features")
-                    .font(.custom("Menlo-Bold", size: 25))
-                    .foregroundColor(.white.opacity(0.8))
+                    .font(.headline)
                 ForEach(availableFeatures, id: \.self) { feature in
                     HStack {
                         Image(systemName: selectedFeatures.contains(feature) ? "checkmark.square.fill" : "square")
                             .resizable()
                             .frame(width: 25, height: 25)
-                            .foregroundColor(.purple)
-                            .onTapGesture { toggleFeature(feature) }
+                            .onTapGesture {
+                                toggleFeature(feature)
+                            }
                         Text(feature)
-                            .font(.custom("Menlo", size: 20))
-                            .foregroundColor(.white)
-                            .font(.headline)
+                            .font(.body)
                     }
                 }
             }
-            .padding(.vertical, 5)
             
-            // MARK: - Study Topics Section
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Study Topics")
-                    .font(.custom("Menlo-Bold", size: 25))
-                    .foregroundColor(.white.opacity(0.8))
-                
-                // Input Row
-                HStack {
-                    TextField("Add topic (e.g., Calculus)", text: $newTopic)
-                        .font(.custom("Menlo", size: 14))
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .shadow(color: Color(#colorLiteral(red: 0.1370129638, green: 0.1044493588, blue: 0.2434654624, alpha: 0.5061568709)), radius: 2, x: -2, y: -2)
-                    Button(action: addTopic) {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.purple)
-                    }
-                }
-                
-                // Topics List
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
-                        ForEach(studyTopics, id: \.self) { topic in
-                            Text(topic)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(15)
-                                .overlay(
-                                    Button(action: { removeTopic(topic) }) {
-                                        Image(systemName: "xmark.circle.fill")
-                                            .foregroundColor(.red)
-                                            .offset(x: 8, y: -8)
-                                    },
-                                    alignment: .topTrailing
-                                )
-                        }
-                    }
-                    .padding(.vertical, 5)
-                }
-                .frame(minHeight: 50)
-            }
-            
-            Spacer()
-            
-            // MARK: - Create Group Button
+            // Create Group Button
             Button(action: createGroup) {
-                HStack {
-                    Spacer()
-                    Text("Create Group")
-                        .font(.custom("Menlo-Bold", size: 18))
-                        .foregroundColor(.white)
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.white)
-                    Spacer()
-                }
-                .padding()
-                .background(groupName.isEmpty ? Color(#colorLiteral(red: 0.534640789, green: 0.4167757928, blue: 0.865655005, alpha: 1)) : Color.blue)
-                .cornerRadius(15)
-                .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 3, x: -3, y: -3)
+                Text("Create Group")
+                    .padding()
+                    .background(groupName.isEmpty ? Color.gray : Color.blue)
+                    .cornerRadius(10)
+                    .foregroundColor(.white)
             }
             .disabled(groupName.isEmpty)
-            .padding(.bottom, 20)
+            .padding(.top, 20)
+        }
+        .alert(isPresented: $showErrorAlert) {
+            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
         }
         .padding()
-        .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
-        .alert(isPresented: $showErrorAlert) {
-            Alert(
-                title: Text("Creation Failed"),
-                message: Text(errorMessage),
-                dismissButton: .default(Text("OK")) {
-                    viewContext.rollback()
-                }
-            )
-        }
     }
-    
-    // MARK: - Core Data Operations
+
+    // Helper Functions
     private func createGroup() {
         guard !groupName.isEmpty else {
             showError(message: "Please enter a group name")
             return
         }
-        
-        guard groupName.count >= 3 && groupName.count <= 25 else {
-            showError(message: "Group name must be 3-25 characters")
-            return
-        }
-        
-        // Create Group in Core Data
+
+        // Create StudyGroup locally (Core Data)
         let newGroup = StudyGroup(context: viewContext)
         newGroup.id = UUID()
-        newGroup.name = groupName.trimmingCharacters(in: .whitespacesAndNewlines)
-        newGroup.features = (selectedFeatures as NSArray).mutableCopy() as! NSMutableArray
-        newGroup.topics = (studyTopics as NSArray).mutableCopy() as! NSMutableArray
-        newGroup.code = generateGroupCode()
-        newGroup.members = 1
-        newGroup.isOpen = true
-        newGroup.isMember = true
+        newGroup.name = groupName
+        newGroup.features = selectedFeatures as NSArray
+        newGroup.topics = studyTopics as NSArray
         newGroup.createdAt = Date()
-        
-        // Send the new group to the backend via API
+
+        // Send to Backend
         sendGroupToBackend(group: newGroup)
-        
+
+        // Save to Core Data
         do {
             try viewContext.save()
-            presentationMode.wrappedValue.dismiss()
-        } catch let error as NSError {
-            showError(message: "Failed to create group:\n\(error.localizedDescription)")
-            viewContext.delete(newGroup)
-            viewContext.rollback()
+            presentationMode.wrappedValue.dismiss()  // Close the create view
+        } catch {
+            showError(message: "Failed to save group locally: \(error.localizedDescription)")
         }
     }
-    
-    // MARK: - Helper Functions for Backend Communication
+
     private func sendGroupToBackend(group: StudyGroup) {
-        guard let url = NetworkHelper.getBackendURL(endpoint: "/api/groups/create") else {
-            self.showError(message: "Could not find IP address")
+        guard let url = URL(string: "https://your-backend-api.com/api/groups/create") else {
+            showError(message: "Invalid backend URL")
             return
         }
-        
+
         let payload: [String: Any] = [
             "name": group.name ?? "",
-            "features": group.features as? [String] ?? [],  // Explicitly cast to [String]
-            "topics": group.topics as? [String] ?? [],      // Explicitly cast to [String]
-            "code": group.code ?? "",
-            "members": group.members,
-            "isOpen": group.isOpen,
-            "isMember": group.isMember,
+            "members": 1,  // Assuming one member initially
+            "features": group.features ?? [],
+            "topics": group.topics ?? [],
             "createdAt": group.createdAt ?? Date()
         ]
 
-        
         guard let jsonData = try? JSONSerialization.data(withJSONObject: payload) else {
-            self.showError(message: "Invalid group data")
+            showError(message: "Invalid group data")
             return
         }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
-        
+
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
@@ -220,20 +114,25 @@ struct CreateGroupView: View {
                 }
                 return
             }
-            
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 201 else {
                 DispatchQueue.main.async {
                     self.showError(message: "Failed to create group on backend")
                 }
                 return
             }
-            
+
             DispatchQueue.main.async {
                 self.showError(message: "Group created successfully!")
             }
         }.resume()
     }
-    
+
+    private func showError(message: String) {
+        errorMessage = message
+        showErrorAlert = true
+    }
+
     private func toggleFeature(_ feature: String) {
         if selectedFeatures.contains(feature) {
             selectedFeatures.removeAll { $0 == feature }
@@ -241,30 +140,8 @@ struct CreateGroupView: View {
             selectedFeatures.append(feature)
         }
     }
-    
-    private func addTopic() {
-        let trimmedTopic = newTopic.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedTopic.isEmpty else { return }
-        
-        if !studyTopics.contains(trimmedTopic) {
-            studyTopics.append(trimmedTopic)
-            newTopic = ""
-        }
-        
-    }
-    private func removeTopic(_ topic: String) {
-        studyTopics.removeAll { $0 == topic }
-    }
-
-    private func generateGroupCode() -> String {
-        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<6).map { _ in letters.randomElement()! })
-    }
-
-    private func showError(message: String) {
-        errorMessage = message
-        showErrorAlert = true
-    }
 }
 
-struct CreateGroupView_Preview: PreviewProvider { static var previews: some View { CreateGroupView() } }
+#Preview {
+    CreateGroupView()
+}

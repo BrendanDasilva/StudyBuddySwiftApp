@@ -1,8 +1,8 @@
 //
+//
 //  WelcomeView.swift
 //  StudyBuddy
 //
-
 import SwiftUI
 
 struct WelcomeView: View {
@@ -26,7 +26,8 @@ struct WelcomeView: View {
                     .padding(.leading, 25)
 
                     VStack(spacing: 15) {
-                        StudyBuddyButton(imageName: "person", text: "Individual Study Session", destination: StudyAppsView())
+                        // Modify destination to include the groupName
+                        StudyBuddyButton(imageName: "person", text: "Individual Study Session", destination: StudyAppsView(groupName: "Default Study Group"))
                         StudyBuddyButton(imageName: "person.2", text: "Join a Study Group", destination: JoinGroupView())
                         StudyBuddyButton(imageName: "list.bullet", text: "View Your Study Groups", destination: ViewGroupsView())
                         StudyBuddyButton(imageName: "plus", text: "Create a Study Group", destination: CreateGroupView())

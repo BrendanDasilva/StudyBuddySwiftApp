@@ -1,11 +1,14 @@
 //
-//  StudyAppsView.swift
+//  StudyApps View.swift
 //  StudyBuddy
 //
 
 import SwiftUI
 
 struct StudyAppsView: View {
+    let groupName: String // The group name passed from the previous view
+
+    // List of study apps
     let studyApps: [(String, AnyView)] = [
         ("Courses", AnyView(CoursesApp())),
         ("Scheduler", AnyView(SchedulerApp())),
@@ -14,27 +17,31 @@ struct StudyAppsView: View {
         ("To-Do List", AnyView(ToDoApp())),
         ("Notes", AnyView(NotesApp()))
     ]
-
+    
+    // Grid layout for study apps (two columns)
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
         VStack {
+            // Title section with the group name at the top
             Text("STUDY APPS")
                 .padding(.top, 80)
                 .font(.custom("HelveticaNeue-Bold", size: 50))
                 .fontWeight(.bold)
-                .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 4, x: 0, y: 4)
-                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .shadow(color: Color.black.opacity(0.3), radius: 4, x: 0, y: 4)
+                .padding(.bottom, 20)
+
+            Text("Group: \(groupName)")  // Display the group name passed from the previous screen
+                .font(.title2)
                 .foregroundColor(.white)
                 .padding(.bottom, 20)
 
             // Grid layout for study apps
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(studyApps, id: \.0) { app in
-                    NavigationLink(destination: app.1) { // Corrected: Pass the AnyView directly
-                        StudyAppGridButton(title: app.0, destination: app.1)
-                    }
+                    // Each app in the grid has a corresponding button and navigates to the app's view
+                    StudyAppGridButton(title: app.0, destination: app.1)
                 }
             }
             .padding(.horizontal, 20)
@@ -48,6 +55,7 @@ struct StudyAppsView: View {
 
 struct StudyAppsView_Previews: PreviewProvider {
     static var previews: some View {
-        StudyAppsView()
+        // Preview with a sample group name
+        StudyAppsView(groupName: "Sample Study Group")
     }
 }
