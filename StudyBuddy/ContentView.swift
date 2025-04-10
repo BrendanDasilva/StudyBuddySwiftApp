@@ -3,7 +3,7 @@
 //  StudyBuddy
 //
 //  Created by Brendan Dasilva on 2025-03-04.
-//             Kailie Field
+//             Kailie Field [SN] : 100627702
 //             Jessica Lee
 //             Lucas Caridi
 
