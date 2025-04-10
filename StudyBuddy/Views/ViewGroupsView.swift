@@ -40,7 +40,7 @@ struct ViewGroupsView: View {
                                     }
                                     .background(
                                         NavigationLink(
-                                            destination: StudyAppsView(group: group),
+                                            destination: StudyAppsView(groupName: group.name ?? "Study Apps"),
                                             label: { EmptyView() }
                                         )
                                     )
@@ -55,36 +55,6 @@ struct ViewGroupsView: View {
                 .padding()
             }
         }
-    }
-}
-
-// The GroupTile View Component (Updated to Include Menu)
-struct GroupTile: View {
-    var group: StudyGroup
-    var isJoined: Bool
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(group.name ?? "Group Name")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                Text("Created at: \(group.createdAt ?? Date(), formatter: DateFormatter.shortDate)")
-                    .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.7))
-            }
-
-            Spacer()
-
-            // Add the 3 vertical dots (context menu)
-            Image(systemName: "ellipsis.vertical")
-                .foregroundColor(.white)
-                .padding(10)
-                .background(Circle().fill(Color.black.opacity(0.5)))
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 10).fill(Color.white.opacity(0.2)))
-        .padding(.horizontal)
     }
 }
 

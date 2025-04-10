@@ -29,11 +29,12 @@ struct StudyAppsView: View {
                 .foregroundColor(.white)
                 .padding(.bottom, 20)
 
-            // ✅ Grid Layout with Navigation
+            // Grid layout for study apps
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(studyApps, id: \.0) { app in
-                    StudyAppGridButton(title: app.0, destination: app.1)
-                    
+                    NavigationLink(destination: app.1) { // Corrected: Pass the AnyView directly
+                        StudyAppGridButton(title: app.0, destination: app.1)
+                    }
                 }
             }
             .padding(.horizontal, 20)
@@ -44,9 +45,9 @@ struct StudyAppsView: View {
         .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
     }
 }
-struct StudyAppsView_Preview: PreviewProvider {
+
+struct StudyAppsView_Previews: PreviewProvider {
     static var previews: some View {
         StudyAppsView()
     }
 }
-

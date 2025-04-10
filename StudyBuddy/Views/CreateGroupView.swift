@@ -21,7 +21,7 @@ struct CreateGroupView: View {
     
     // MARK: - Constants
     let availableFeatures = ["Courses", "Scheduler", "Pomodoro Timer", "Flash Cards", "To-Do List", "Notes"]
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             // MARK: - Header
@@ -31,7 +31,7 @@ struct CreateGroupView: View {
                 .shadow(color: Color(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)), radius: 4, x: 0, y: -4)
                 .foregroundColor(.white)
                 .padding(.bottom, 10)
-
+            
             // MARK: - Group Name Input
             VStack(alignment: .leading, spacing: 5) {
                 Text("Group Name")
@@ -47,7 +47,7 @@ struct CreateGroupView: View {
                     .font(.caption)
                     .foregroundColor(.white.opacity(0.6))
             }
-
+            
             // MARK: - Feature Selection
             VStack(alignment: .leading, spacing: 10) {
                 Text("Include Features")
@@ -68,7 +68,7 @@ struct CreateGroupView: View {
                 }
             }
             .padding(.vertical, 5)
-
+            
             // MARK: - Study Topics Section
             VStack(alignment: .leading, spacing: 10) {
                 Text("Study Topics")
@@ -112,9 +112,9 @@ struct CreateGroupView: View {
                 }
                 .frame(minHeight: 50)
             }
-
+            
             Spacer()
-
+            
             // MARK: - Create Group Button
             Button(action: createGroup) {
                 HStack {
@@ -146,7 +146,7 @@ struct CreateGroupView: View {
             )
         }
     }
-
+    
     // MARK: - Core Data Operations
     private func createGroup() {
         guard !groupName.isEmpty else {
@@ -158,7 +158,7 @@ struct CreateGroupView: View {
             showError(message: "Group name must be 3-25 characters")
             return
         }
-
+        
         // Create Group in Core Data
         let newGroup = StudyGroup(context: viewContext)
         newGroup.id = UUID()
@@ -170,10 +170,10 @@ struct CreateGroupView: View {
         newGroup.isOpen = true
         newGroup.isMember = true
         newGroup.createdAt = Date()
-
+        
         // Send the new group to the backend via API
         sendGroupToBackend(group: newGroup)
-
+        
         do {
             try viewContext.save()
             presentationMode.wrappedValue.dismiss()
@@ -183,18 +183,18 @@ struct CreateGroupView: View {
             viewContext.rollback()
         }
     }
-
+    
     // MARK: - Helper Functions for Backend Communication
     private func sendGroupToBackend(group: StudyGroup) {
         guard let url = NetworkHelper.getBackendURL(endpoint: "/api/groups/create") else {
             self.showError(message: "Could not find IP address")
             return
         }
-
-        let payload = [
+        
+        let payload: [String: Any] = [
             "name": group.name ?? "",
-            "features": group.features ?? [],
-            "topics": group.topics ?? [],
+            "features": group.features as? [String] ?? [],  // Explicitly cast to [String]
+            "topics": group.topics as? [String] ?? [],      // Explicitly cast to [String]
             "code": group.code ?? "",
             "members": group.members,
             "isOpen": group.isOpen,
@@ -202,16 +202,17 @@ struct CreateGroupView: View {
             "createdAt": group.createdAt ?? Date()
         ]
 
+        
         guard let jsonData = try? JSONSerialization.data(withJSONObject: payload) else {
             self.showError(message: "Invalid group data")
             return
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
-
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
@@ -219,20 +220,20 @@ struct CreateGroupView: View {
                 }
                 return
             }
-
+            
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 DispatchQueue.main.async {
                     self.showError(message: "Failed to create group on backend")
                 }
                 return
             }
-
+            
             DispatchQueue.main.async {
                 self.showError(message: "Group created successfully!")
             }
         }.resume()
     }
-
+    
     private func toggleFeature(_ feature: String) {
         if selectedFeatures.contains(feature) {
             selectedFeatures.removeAll { $0 == feature }
@@ -249,25 +250,21 @@ struct CreateGroupView: View {
             studyTopics.append(trimmedTopic)
             newTopic = ""
         }
+        
     }
-    
     private func removeTopic(_ topic: String) {
         studyTopics.removeAll { $0 == topic }
     }
-    
+
     private func generateGroupCode() -> String {
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         return String((0..<6).map { _ in letters.randomElement()! })
     }
-    
+
     private func showError(message: String) {
         errorMessage = message
         showErrorAlert = true
     }
 }
 
-struct CreateGroupView_Preview: PreviewProvider {
-    static var previews: some View {
-        CreateGroupView()
-    }
-}
+struct CreateGroupView_Preview: PreviewProvider { static var previews: some View { CreateGroupView() } }
