@@ -7,15 +7,21 @@
 
 import SwiftUI
 
-
 @main
 struct StudyBuddyApp: App {
     let persistenceController = CoreDataManager.shared
 
+    @State private var isLoggedIn = false
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            if isLoggedIn {
+                ContentView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            } else {
+                LoginView(isLoggedIn: $isLoggedIn)
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            }
         }
     }
 }
