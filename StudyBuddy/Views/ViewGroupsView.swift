@@ -1,8 +1,3 @@
-//
-//  ViewGroupsView.swift
-//  StudyBuddy
-//
-
 import SwiftUI
 import CoreData
 
@@ -28,8 +23,9 @@ struct ViewGroupsView: View {
 
                     ScrollView {
                         VStack(spacing: 10) {
+                            // Simplify and use NavigationLink here
                             ForEach(groups) { group in
-                                GroupTile(group: group, isJoined: true)
+                                GroupTileNavigation(group: group)
                                     .contextMenu {
                                         Button(action: {
                                             // Action for view/edit details
@@ -38,13 +34,6 @@ struct ViewGroupsView: View {
                                             Label("View/Edit Details", systemImage: "pencil")
                                         }
                                     }
-                                    .background(
-                                        NavigationLink(
-                                            destination: StudyAppsView(groupName: group.name ?? "Study Apps"),
-                                            label: { EmptyView() }
-                                        )
-                                    )
-                                    .buttonStyle(PlainButtonStyle())  // To avoid the default navigation button style
                             }
                         }
                         .padding(.horizontal)
@@ -58,7 +47,6 @@ struct ViewGroupsView: View {
     }
 }
 
-// Preview
 #Preview {
     ViewGroupsView()
 }

@@ -1,0 +1,23 @@
+//
+//  GroupTileNavigation.swift
+//  StudyBuddy
+//
+//  Created by jessica lee on 2025-04-10.
+//
+
+import SwiftUI
+import CoreData
+
+struct GroupTileNavigationView: View {
+    var group: StudyGroup
+
+    var body: some View {
+        NavigationLink(destination: StudyAppsView(groupName: group.name ?? "Study Apps")) {
+            GroupTile(group: group, isJoined: true)
+                .padding()
+                .background(Color.blue.opacity(0.2)) // Optional: Add background for visibility
+                .cornerRadius(10)
+        }
+        .buttonStyle(PlainButtonStyle()) // Ensure the navigation link doesn’t get a default button style
+    }
+}
