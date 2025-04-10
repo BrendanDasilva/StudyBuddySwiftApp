@@ -11,7 +11,8 @@ struct RegisterView: View {
     @State private var username = ""
     @State private var email = ""
     @State private var password = ""
-    
+    @State private var registrationError: String?
+
     var body: some View {
         ZStack {
             Color(hex: "8AACEA").edgesIgnoringSafeArea(.all)
@@ -36,21 +37,78 @@ struct RegisterView: View {
                 }
                 .padding(.horizontal, 30)
                 
-                Button("Register") {}
-                    .frame(width: 200, height: 50)
-                    .background(Color.purple)
-                    .cornerRadius(10)
-                    .foregroundColor(.white)
-                
+                Button("Register") {
+                    registerUser()
+                }
+                .frame(width: 200, height: 50)
+                .background(Color.purple)
+                .cornerRadius(10)
+                .foregroundColor(.white)
+
+                if let registrationError = registrationError {
+                    Text(registrationError)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .padding(.top, -10)
+                }
+
                 Spacer()
             }
         }
     }
-}
 
+    private func registerUser() {
+        guard let url = NetworkHelper.getBackendURL(endpoint: "/api/users/register") else {
+            self.registrationError = "Could not find IP address"
+            return
+        }
 
-#Preview {
-    Group {
-        RegisterView()
+        let payload = [
+            "username": username,
+            "email": email,
+            "password": password
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: payload) else {
+            self.registrationError = "Invalid registration data"
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.registrationError = error.localizedDescription
+                }
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                DispatchQueue.main.async {
+                    self.registrationError = "No response from server"
+                }
+                return
+            }
+
+            if httpResponse.statusCode == 200 {
+                // Store login info in UserDefaults
+                UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                UserDefaults.standard.set(self.email, forKey: "userEmail")
+                
+                DispatchQueue.main.async {
+                    // Auto-login and navigate to Home
+                    // Navigate to the login screen with auto-login enabled
+                    // Consider setting `isLoggedIn` to true here
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.registrationError = "Failed to register user"
+                }
+            }
+        }.resume()
     }
 }
