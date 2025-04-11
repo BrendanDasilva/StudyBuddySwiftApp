@@ -2,7 +2,6 @@
 //  GroupTileNavigationView.swift
 //  StudyBuddy
 //
-//  Created by jessica lee on 2025-04-10.
 //
 
 import SwiftUI

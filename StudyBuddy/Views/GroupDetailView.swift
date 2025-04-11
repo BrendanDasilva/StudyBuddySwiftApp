@@ -2,13 +2,6 @@
 //  GroupDetailView.swift
 //  StudyBuddy
 //
-//  Created by Brendan Dasilva on 2025-03-14.
-//
-
-//
-//  GroupDetailView.swift
-//  StudyBuddy
-//
 
 import SwiftUI
 import CoreData

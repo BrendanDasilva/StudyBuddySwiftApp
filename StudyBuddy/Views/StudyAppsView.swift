@@ -8,7 +8,7 @@ import SwiftUI
 struct StudyAppsView: View {
     let groupName: String // The group name passed from the previous view
 
-    // List of study apps
+    // List of study apps, ensure each app has its respective view properly initialized
     let studyApps: [(String, AnyView)] = [
         ("Courses", AnyView(CoursesApp())),
         ("Scheduler", AnyView(SchedulerApp())),
