@@ -197,14 +197,14 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					685F6D7E2D773A2000A81DF1 = {
-						CreatedOnToolsVersion = 16.2;
+						CreatedOnToolsVersion = 13.0;
 					};
 					685F6D8E2D773A2100A81DF1 = {
-						CreatedOnToolsVersion = 16.2;
+						CreatedOnToolsVersion = 13.0;
 						TestTargetID = 685F6D7E2D773A2000A81DF1;
 					};
 					685F6D982D773A2100A81DF1 = {
-						CreatedOnToolsVersion = 16.2;
+						CreatedOnToolsVersion = 13.0;
 						TestTargetID = 685F6D7E2D773A2000A81DF1;
 					};
 				};
