@@ -67,60 +67,65 @@ struct FlashCardsApp: View {
                     .foregroundColor(.white)
                     .padding(.top, 40)
                     .padding(.bottom, 20)
+                    .frame(maxWidth: .infinity, alignment: .center)
 
                 ScrollView {
-                    ForEach(flashcards) { card in
-                        VStack {
-                            ZStack {
-                                if card.isFlipped {
-                                    Text(card.answer)
-                                        .font(.title)
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .frame(width: geometry.size.width - 40, height: 200)
-                                        .background(Color.green)
-                                        .cornerRadius(10)
-                                        .shadow(radius: 5)
-                                        .transition(.opacity)
-                                } else {
-                                    Text(card.question)
-                                        .font(.title)
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .frame(width: geometry.size.width - 40, height: 200)
-                                        .background(Color.purple)
-                                        .cornerRadius(10)
-                                        .shadow(radius: 5)
-                                        .transition(.opacity)
+                    VStack {
+                        ForEach(flashcards) { card in
+                            VStack {
+                                ZStack {
+                                    if card.isFlipped {
+                                        Text(card.answer)
+                                            .font(.title)
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .frame(width: geometry.size.width - 40, height: 200)
+                                            .background(Color.green)
+                                            .cornerRadius(10)
+                                            .shadow(radius: 5)
+                                            .transition(.opacity)
+                                    } else {
+                                        Text(card.question)
+                                            .font(.title)
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .frame(width: geometry.size.width - 40, height: 200)
+                                            .background(Color.purple)
+                                            .cornerRadius(10)
+                                            .shadow(radius: 5)
+                                            .transition(.opacity)
+                                    }
                                 }
-                            }
-                            .id(card.isFlipped)
-                            .animation(.easeInOut(duration: 0.3), value: card.isFlipped)
-                            .onTapGesture {
-                                withAnimation {
-                                    if let index = flashcards.firstIndex(where: { $0.id == card.id }) {
-                                        flashcards[index].isFlipped.toggle()
+                                .id(card.isFlipped)
+                                .animation(.easeInOut(duration: 0.3), value: card.isFlipped)
+                                .onTapGesture {
+                                    withAnimation {
+                                        if let index = flashcards.firstIndex(where: { $0.id == card.id }) {
+                                            flashcards[index].isFlipped.toggle()
+                                        }
+                                    }
+                                }
+                                .contextMenu {
+                                    Button(action: {
+                                        selectedFlashcard = card
+                                        newQuestion = card.question
+                                        newAnswer = card.answer
+                                        showEditCardForm = true
+                                    }) {
+                                        Label("Edit Flashcard", systemImage: "pencil")
+                                    }
+                                    Button(action: {
+                                        deleteFlashcard(id: card.id)
+                                    }) {
+                                        Label("Delete Flashcard", systemImage: "trash")
                                     }
                                 }
                             }
-                            .contextMenu {
-                                Button(action: {
-                                    selectedFlashcard = card
-                                    newQuestion = card.question
-                                    newAnswer = card.answer
-                                    showEditCardForm = true
-                                }) {
-                                    Label("Edit Flashcard", systemImage: "pencil")
-                                }
-                                Button(action: {
-                                    deleteFlashcard(id: card.id)
-                                }) {
-                                    Label("Delete Flashcard", systemImage: "trash")
-                                }
-                            }
+                            .padding(.bottom, 20)
+                            .frame(maxWidth: .infinity, alignment: .center)
                         }
-                        .padding(.bottom, 20)
                     }
+                    .frame(minHeight: geometry.size.height)
                 }
 
                 Button(action: {
@@ -134,9 +139,11 @@ struct FlashCardsApp: View {
                         .cornerRadius(10)
                 }
                 .padding(.top, 30)
+                .frame(maxWidth: .infinity, alignment: .center)
 
                 Spacer()
             }
+            .frame(maxWidth: .infinity, alignment: .center)
         }
         .background(Color(hex: "8AACEA"))
         .edgesIgnoringSafeArea(.all)
@@ -154,12 +161,14 @@ struct FlashCardsApp: View {
                     .background(Color.white.opacity(0.2))
                     .cornerRadius(8)
                     .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
 
                 TextField("Enter Answer", text: $newAnswer)
                     .padding()
                     .background(Color.white.opacity(0.2))
                     .cornerRadius(8)
                     .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
 
                 Button(action: {
                     addFlashcard()
@@ -190,12 +199,14 @@ struct FlashCardsApp: View {
                     .background(Color.white.opacity(0.2))
                     .cornerRadius(8)
                     .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
 
                 TextField("Enter Answer", text: $newAnswer)
                     .padding()
                     .background(Color.white.opacity(0.2))
                     .cornerRadius(8)
                     .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
 
                 Button(action: {
                     if let selectedFlashcard = selectedFlashcard {
