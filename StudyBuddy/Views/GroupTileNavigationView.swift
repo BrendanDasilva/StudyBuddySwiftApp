@@ -11,7 +11,7 @@ struct GroupTileNavigationView: View {
     var group: StudyGroup
 
     var body: some View {
-        NavigationLink(destination: StudyAppsView(groupName: group.name ?? "Study Apps")) {
+        NavigationLink(destination: StudyAppsView(groupId: group.name ?? "Study Apps")) {
             GroupTile(group: group, isJoined: true)
                 .padding()
                 .background(Color.blue.opacity(0.2))

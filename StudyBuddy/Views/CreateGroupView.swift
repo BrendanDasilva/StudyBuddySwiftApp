@@ -165,3 +165,4 @@ struct CreateGroupView: View {
 #Preview {
     CreateGroupView()
 }
+

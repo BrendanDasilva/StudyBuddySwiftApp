@@ -3,17 +3,22 @@
 //  StudyBuddy
 //
 
+//
+//  StudyApps View.swift
+//  StudyBuddy
+//
+
 import SwiftUI
 
 struct StudyAppsView: View {
-    let groupName: String // The group name passed from the previous view
+    let groupId: String // The groupId passed from the previous view
 
     // List of study apps, ensure each app has its respective view properly initialized
     let studyApps: [(String, AnyView)] = [
         ("Courses", AnyView(CoursesApp())),
         ("Scheduler", AnyView(SchedulerApp())),
         ("Pomodoro Timer", AnyView(PomodoroTimerApp())),
-        ("Flash Cards", AnyView(FlashCardsApp())),
+        ("Flash Cards", AnyView(FlashCardsApp(groupId: "sample-group-id"))), // Pass groupId to the FlashCardsApp
         ("To-Do List", AnyView(ToDoApp())),
         ("Notes", AnyView(NotesApp()))
     ]
@@ -32,7 +37,7 @@ struct StudyAppsView: View {
                 .shadow(color: Color.black.opacity(0.3), radius: 4, x: 0, y: 4)
                 .padding(.bottom, 20)
 
-            Text("Group: \(groupName)")  // Display the group name passed from the previous screen
+            Text("Group: \(groupId)")  // Display the groupId passed from the previous screen
                 .font(.title2)
                 .foregroundColor(.white)
                 .padding(.bottom, 20)
@@ -55,7 +60,7 @@ struct StudyAppsView: View {
 
 struct StudyAppsView_Previews: PreviewProvider {
     static var previews: some View {
-        // Preview with a sample group name
-        StudyAppsView(groupName: "Sample Study Group")
+        // Preview with a sample groupId
+        StudyAppsView(groupId: "sample-group-id")
     }
 }

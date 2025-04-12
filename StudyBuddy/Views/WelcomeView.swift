@@ -27,7 +27,7 @@ struct WelcomeView: View {
 
                     VStack(spacing: 15) {
                         // Modify destination to include the groupName
-                        StudyBuddyButton(imageName: "person", text: "Individual Study Session", destination: StudyAppsView(groupName: "Default Study Group"))
+                        StudyBuddyButton(imageName: "person", text: "Individual Study Session", destination: StudyAppsView(groupId: "Default Study Group"))
                         StudyBuddyButton(imageName: "person.2", text: "Join a Study Group", destination: JoinGroupView())
                         StudyBuddyButton(imageName: "list.bullet", text: "View Your Study Groups", destination: ViewGroupsView())
                         StudyBuddyButton(imageName: "plus", text: "Create a Study Group", destination: CreateGroupView())
