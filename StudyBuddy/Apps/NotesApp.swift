@@ -113,7 +113,4 @@ struct NotesApp_Previews: PreviewProvider {
         NotesApp()
     }
 }
-//#Preview {
-//    NotesApp()
-//        .environment(\.managedObjectContext, CoreDataManager.shared.container.viewContext)
-//}
+

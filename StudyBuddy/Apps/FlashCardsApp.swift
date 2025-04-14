@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct FlashCardsApp: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @State private var flashcards: [FlashCard] = []
     @State private var showAddCardForm = false
     @State private var showEditCardForm = false

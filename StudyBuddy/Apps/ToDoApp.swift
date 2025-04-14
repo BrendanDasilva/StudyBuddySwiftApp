@@ -28,16 +28,19 @@ struct ToDoApp: View {
         VStack {
             // header
             Text("To-Do List")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundStyle(.white)
-                .padding()
+                .font(.custom("HelveticaNeue-Bold", size: 60))
+                .foregroundColor(Color.white)
+                .shadow(color: Color.gray, radius: 4, x: 0, y: 4)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+                .padding(.top, 30)
 
             // input field
             HStack {
                 TextField("enter a task", text: $newTask)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.leading)
+                    .font(.custom("Menlo-Bold", size: 16))
                 
                 // add task button
                 Button(action: addTask) {
@@ -45,6 +48,7 @@ struct ToDoApp: View {
                         .resizable()
                         .foregroundColor(.white)
                         .frame(width: 40, height: 40)
+                    
                 }
                 .padding(.trailing)
             }
@@ -107,9 +111,8 @@ struct ToDoApp: View {
         }
     }
 }
-
-// MARK: - Preview
-//#Preview {
-//    ToDoApp()
-//        .environment(\.managedObjectContext, CoreDataManager.shared.container.viewContext)
-//}
+struct ToDoApp_Preview: PreviewProvider {
+    static var previews: some View {
+        ToDoApp()
+    }
+}
