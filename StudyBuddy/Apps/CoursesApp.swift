@@ -19,3 +19,9 @@ struct CoursesApp: View {
         .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
     }
 }
+
+struct CoursesApp_Previews: PreviewProvider {
+    static var previews: some View {
+        CoursesApp()
+    }
+}

@@ -22,7 +22,7 @@ struct LoginView: View {
                 VStack(spacing: 30) {
                     Text("STUDY\nBUDDY")
                         .padding(.top, 180)
-                        .font(.custom("HelveticaNeue-Bold", size: 96))
+                        .font(.custom("HelveticaNeue-Bold", size: 70))
                         .foregroundColor(Color.white)
                         .shadow(color: Color.gray, radius: 8, x: 0, y: -8)
                         .multilineTextAlignment(.center)
@@ -143,5 +143,11 @@ struct LoginView: View {
             }
         }.resume()
         
+    }
+}
+
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginView(isLoggedIn: .constant(false))
     }
 }

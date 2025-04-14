@@ -14,13 +14,13 @@ struct StudyAppsView: View {
     let groupId: String // The groupId passed from the previous view
 
     // List of study apps, ensure each app has its respective view properly initialized
-    let studyApps: [(String, AnyView)] = [
-        ("Courses", AnyView(CoursesApp())),
-        ("Scheduler", AnyView(SchedulerApp())),
-        ("Pomodoro Timer", AnyView(PomodoroTimerApp())),
-        ("Flash Cards", AnyView(FlashCardsApp(groupId: "sample-group-id"))), // Pass groupId to the FlashCardsApp
-        ("To-Do List", AnyView(ToDoApp())),
-        ("Notes", AnyView(NotesApp()))
+    let studyApps: [(String, AnyView, Color)] = [
+        ("Courses", AnyView(CoursesApp()), Color.pink),
+        ("Scheduler", AnyView(SchedulerApp()), Color.green),
+        ("Pomodoro Timer", AnyView(PomodoroTimerApp()), Color.orange),
+        ("Flash Cards", AnyView(FlashCardsApp(groupId: "sample-group-id")), Color.purple), // Pass groupId to the FlashCardsApp
+        ("To-Do List", AnyView(ToDoApp()), Color.yellow),
+        ("Notes", AnyView(NotesApp()), Color.red)
     ]
     
     // Grid layout for study apps (two columns)
@@ -44,9 +44,9 @@ struct StudyAppsView: View {
 
             // Grid layout for study apps
             LazyVGrid(columns: columns, spacing: 20) {
-                ForEach(studyApps, id: \.0) { app in
+                ForEach(studyApps, id: \.0) { title, destination, color in
                     // Each app in the grid has a corresponding button and navigates to the app's view
-                    StudyAppGridButton(title: app.0, destination: app.1)
+                    StudyAppGridButton(title: title, destination: destination, backgroundColor: color)
                 }
             }
             .padding(.horizontal, 20)
