@@ -61,6 +61,6 @@ struct StudyAppsView: View {
 struct StudyAppsView_Previews: PreviewProvider {
     static var previews: some View {
         // Preview with a sample groupId
-        StudyAppsView(groupId: "sample-group-id")
+        StudyAppsView(groupId: "STARFLEET")
     }
 }

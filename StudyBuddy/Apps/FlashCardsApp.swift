@@ -181,7 +181,7 @@ struct CardView: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)
-                .fill(card.isFlipped ? Color((#colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 0.6272321429))) : Color((#colorLiteral(red: 0.2904311822, green: 0.4765915186, blue: 0.8422653367, alpha: 0.7275455298))))
+                .fill(card.isFlipped ? Color((#colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 0.6272321429))) : Color((#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1))))
                 .frame(height: 200)
                 .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 4, x: -3, y: -3)
             

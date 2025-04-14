@@ -27,10 +27,10 @@ struct WelcomeView: View {
 
                     VStack(spacing: 15) {
                         // Modify destination to include the groupName
-                        StudyBuddyButton(imageName: "person", text: "Individual Study Session", destination: StudyAppsView(groupId: "Default Study Group"))
-                        StudyBuddyButton(imageName: "person.2", text: "Join a Study Group", destination: JoinGroupView())
-                        StudyBuddyButton(imageName: "list.bullet", text: "View Your Study Groups", destination: ViewGroupsView())
-                        StudyBuddyButton(imageName: "plus", text: "Create a Study Group", destination: CreateGroupView())
+                        StudyBuddyButton(imageName: "person", text: "Individual Study Session", destination: StudyAppsView(groupId: "Default Study Group"), color: Color.pink.opacity(0.5))
+                        StudyBuddyButton(imageName: "person.2", text: "Join a Study Group", destination: JoinGroupView(), color: Color.green.opacity(0.5))
+                        StudyBuddyButton(imageName: "list.bullet", text: "View Your Study Groups", destination: ViewGroupsView(), color: Color.yellow.opacity(0.5))
+                        StudyBuddyButton(imageName: "plus", text: "Create a Study Group", destination: CreateGroupView(), color: Color.blue.opacity(0.5))
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 25)
