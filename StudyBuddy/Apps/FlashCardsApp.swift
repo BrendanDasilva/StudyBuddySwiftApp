@@ -22,24 +22,28 @@ struct FlashCardsApp: View {
             Spacer()
             
             Text("Flash Cards")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(.black)
-                .padding(.top, 20)
+                .font(.custom("HelveticaNeue-Bold", size: 60))
+                .foregroundColor(Color.white)
+                .shadow(color: Color.gray, radius: 8, x: 0, y: 8)
+                .multilineTextAlignment(.center)
+                .padding(.top, 30)
             
             if flashcards.isEmpty {
                 VStack(spacing: 10){
                     Spacer()
                     
                     Text("Add FlashCards.")
-                        .font(.title2)
-                        .foregroundColor(.black)
-                        .padding(.top, 20)
+                        .font(.custom("Menlo-Bold", size: 16))
+                        .background(Color.clear)
+                        .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 4, x: -3, y: -3)
+                        .foregroundColor(.white)
+                    
                     Text("Tap the plus (+) button to add a new flashcard.")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .padding(.horizontal)
                         .multilineTextAlignment(.center)
+                    
                     Spacer()
                 }
             } else {
@@ -62,19 +66,22 @@ struct FlashCardsApp: View {
             Button(action: {
                 showAddCardForm.toggle()
             }) {
-                Text("Add Flashcard")
-                    .font(.title3)
+                Text("+")
+                    .font(.custom("Menlo-Bold", size: 16))
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.blue)
+                    .background(Color.clear)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
             }
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(#colorLiteral(red: 0.1701194298, green: 0.1297623498, blue: 0.2721540133, alpha: 1)), lineWidth: 2))
+            .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 4, x: -3, y: -3)
+            .foregroundColor(.white)
             .padding(.horizontal, 40)
-            .padding(.bottom, 30)
+            .padding(.bottom, 100)
         }
         .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
         .sheet(isPresented: $showAddCardForm) {
+            
             AddEditFlashcardView(
                 title: "Add Flashcard",
                 question: $newQuestion,
