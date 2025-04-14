@@ -19,7 +19,7 @@ struct FlashCardsApp: View {
     
     var groupId: String
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .center) {
             HStack{
                 
                 Button(action: {
@@ -29,7 +29,8 @@ struct FlashCardsApp: View {
                         .font(.title2)
                         .foregroundColor(.white)
                         .frame(width: 40, height: 40)
-                        .background(Color.blue.opacity(0.7))
+                        .background(Color.clear)
+                        .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 4, x: -3, y: -3)
                         .clipShape(Circle())
                         .shadow(radius: 2)
                 }
