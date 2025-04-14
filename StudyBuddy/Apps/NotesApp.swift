@@ -25,10 +25,12 @@ struct NotesApp: View {
             VStack {
                 // MARK: - Header
                 Text("Notes")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.top, 20)
+                    .font(.custom("HelveticaNeue-Bold", size: 60))
+                    .foregroundColor(Color.white)
+                    .shadow(color: Color.gray, radius: 8, x: 0, y: 8)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 30)
 
                 // MARK: - Add Note Button
                 Button(action: {
@@ -36,12 +38,12 @@ struct NotesApp: View {
                     showingNoteDetail = true
                 }) {
                     Text("Add Note")
-                        .font(.headline)
+                        .font(.custom("Menlo-Bold", size: 16))
+                        .frame(width: 300, height: 50)
+                        .background(Color.clear)
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(#colorLiteral(red: 0.1701194298, green: 0.1297623498, blue: 0.2721540133, alpha: 1)), lineWidth: 2))
+                        .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 4, x: -3, y: -3)
                         .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
                 }
                 .padding(.horizontal, 20)
 
@@ -93,6 +95,11 @@ struct NotesApp: View {
 
 
 // MARK: - Preview
+struct NotesApp_Previews: PreviewProvider {
+    static var previews: some View {
+        NotesApp()
+    }
+}
 //#Preview {
 //    NotesApp()
 //        .environment(\.managedObjectContext, CoreDataManager.shared.container.viewContext)
