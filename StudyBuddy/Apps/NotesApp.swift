@@ -32,6 +32,44 @@ struct NotesApp: View {
                     .frame(maxWidth: .infinity)
                     .padding(.top, 30)
 
+                // MARK: - Notes List
+                List {
+                    ForEach(notes) { note in
+                        // MARK: - Note List Item
+                        Button(action: {
+                            selectedNote = note
+                            showingNoteDetail = true
+                        }) {
+                            HStack {
+                                Text(note.text ?? "")
+                                    .font(.custom("Menlo-Bold", size: 16))
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color(#colorLiteral(red: 0.8015663495, green: 0.9380386521, blue: 0.9764705896, alpha: 1)))
+                                    .cornerRadius(10)
+                                    .foregroundColor(.black)
+                                Spacer()
+                            }
+                            .background(Color.clear)
+                            .cornerRadius(10)
+                            .padding(.horizontal, 10)
+                        }
+                        .listRowBackground(Color.clear)
+                        .swipeActions {
+                            Button(role: .destructive) {
+                                deleteNote(note)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .background(Color.clear)
+                .listRowSeparator(.hidden)
+                .scrollContentBackground(.hidden)
+               
+                
                 // MARK: - Add Note Button
                 Button(action: {
                     selectedNote = nil
@@ -46,31 +84,6 @@ struct NotesApp: View {
                         .foregroundColor(.white)
                 }
                 .padding(.horizontal, 20)
-
-                // MARK: - Notes List
-                List {
-                    ForEach(notes) { note in
-                        // MARK: - Note List Item
-                        Button(action: {
-                            selectedNote = note
-                            showingNoteDetail = true
-                        }) {
-                            Text(note.text ?? "")
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                .foregroundColor(.black)
-                        }
-                        .swipeActions {
-                            Button(role: .destructive) {
-                                deleteNote(note)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
-                        }
-                    }
-                }
-                .listStyle(PlainListStyle())
             }
             // MARK: - Note Detail Sheet
             .sheet(isPresented: $showingNoteDetail) {
