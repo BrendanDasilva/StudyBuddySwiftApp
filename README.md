@@ -73,40 +73,50 @@ Each study group (or solo session) grants access to the following tools:
 
 ```
 StudyBuddy/
-├── Authentication/
-│   ├── LoginView.swift
-│   └── RegisterView.swift
-├── Core/
-│   ├── StudyBuddyApp.swift
-│   ├── ContentView.swift
-│   └── CoreDataManager.swift
-├── Tabs/
-│   ├── HomeView.swift
-│   ├── WelcomeView.swift
-│   └── AccountView.swift
-├── Groups/
-│   ├── CreateGroupView.swift
-│   ├── JoinGroupView.swift
-│   ├── ViewGroupsView.swift
-│   ├── GroupTile.swift
-│   ├── GroupTileNavigationView.swift
-│   └── GroupDetailView.swift
-├── StudyApps/
-│   ├── StudyAppsView.swift
+├── Apps/
 │   ├── CoursesApp.swift
-│   ├── SchedulerApp.swift
-│   ├── PomodoroTimerApp.swift
-│   ├── NotesApp.swift
 │   ├── FlashCardsApp.swift
+│   ├── NotesApp.swift
+│   ├── PomodoroTimerApp.swift
+│   ├── SchedulerApp.swift
 │   └── ToDoApp.swift
 ├── Components/
-│   ├── StudyBuddyButton.swift
+│   ├── GroupTile.swift
+│   ├── NoteDetailView.swift
 │   ├── StudyAppGridButton.swift
-│   ├── TaskListItem.swift
-│   └── NoteDetailView.swift
+│   ├── StudyBuddyButton.swift
+│   └── TaskListItem.swift
 ├── Models/
-│   ├── FlashCard.swift
-│   └── StudyGroupDecodable.swift
+│   └── FlashCard.swift
+├── Preview Content/
+│   └── Preview Assets/
+├── Utilities/
+│   ├── ColorExtensions.swift
+│   └── NSArrayTransformer.swift
+├── Views/
+│   ├── AccountView.swift
+│   ├── CreateGroupView.swift
+│   ├── GroupDetailView.swift
+│   ├── GroupTileNavigationView.swift
+│   ├── HomeView.swift
+│   ├── JoinGroupView.swift
+│   ├── LoginView.swift
+│   ├── RegisterView.swift
+│   ├── StudyAppsView.swift
+│   ├── StudyGroupDecodable.swift
+│   ├── ViewGroupsView.swift
+│   └── WelcomeView.swift
+├── Fonts/
+│   ├── Anybody-Bold.ttf
+│   └── Anybody-Regular.ttf
+├── Assets/
+├── ContentView.swift
+├── CoreDataManager.swift
+├── NetworkHelper.swift
+├── StudyBuddyApp.swift
+├── StudyBuddyDataModel/
+└── studybuddy-backend/
+    └── node_modules/
 ```
 
 ---
