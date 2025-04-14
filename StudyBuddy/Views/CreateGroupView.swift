@@ -217,6 +217,6 @@ struct CreateGroupView: View {
 
 struct CreateGroupView_Preview: PreviewProvider {
     static var previews: some View {
-        CreateGroupView()  
+        CreateGroupView()
     }
 }
