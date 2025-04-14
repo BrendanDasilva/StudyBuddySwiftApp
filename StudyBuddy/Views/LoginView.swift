@@ -97,22 +97,22 @@ struct LoginView: View {
             self.loginError = "Could not find IP address"
             return
         }
-
+        
         let payload = [
             "username": email,
             "password": password
         ]
-
+        
         guard let jsonData = try? JSONSerialization.data(withJSONObject: payload) else {
             self.loginError = "Invalid login data"
             return
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
-
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
@@ -120,14 +120,14 @@ struct LoginView: View {
                 }
                 return
             }
-
+            
             guard let httpResponse = response as? HTTPURLResponse else {
                 DispatchQueue.main.async {
                     self.loginError = "No response from server"
                 }
                 return
             }
-
+            
             if httpResponse.statusCode == 200 {
                 // Save login status
                 UserDefaults.standard.set(true, forKey: "isLoggedIn")
@@ -142,5 +142,6 @@ struct LoginView: View {
                 }
             }
         }.resume()
+        
     }
 }

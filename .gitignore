@@ -1,2 +1,3 @@
-*.xcurserstate
+*.xcuserstate
+*xcuserdata
 node_modules/
