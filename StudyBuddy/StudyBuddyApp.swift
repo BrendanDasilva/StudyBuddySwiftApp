@@ -11,7 +11,7 @@ import SwiftUI
 struct StudyBuddyApp: App {
     let persistenceController = CoreDataManager.shared
 
-    @State private var isLoggedIn = false
+    @State private var isLoggedIn = true
 
     var body: some Scene {
         WindowGroup {
