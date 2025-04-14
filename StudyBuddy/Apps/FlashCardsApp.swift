@@ -66,20 +66,21 @@ struct FlashCardsApp: View {
             Button(action: {
                 showAddCardForm.toggle()
             }) {
-                Text("+")
+                Image(systemName: "plus")
                     .font(.custom("Menlo-Bold", size: 16))
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.clear)
+                    .background(Color.purple.opacity(0.5))
                     .foregroundColor(.white)
             }
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(#colorLiteral(red: 0.1701194298, green: 0.1297623498, blue: 0.2721540133, alpha: 1)), lineWidth: 2))
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298))))
             .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 4, x: -3, y: -3)
             .foregroundColor(.white)
             .padding(.horizontal, 40)
             .padding(.bottom, 100)
         }
-        .background(Color(hex: "8AACEA").edgesIgnoringSafeArea(.all))
+        .background(Color((#colorLiteral(red: 0.5142536745, green: 0.4125612287, blue: 0.9104301199, alpha: 0.3884167631))).edgesIgnoringSafeArea(.all))
         .sheet(isPresented: $showAddCardForm) {
             
             AddEditFlashcardView(
@@ -155,16 +156,17 @@ struct CardView: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)
-                .fill(card.isFlipped ? Color.green : Color.purple)
+                .fill(card.isFlipped ? Color((#colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 0.6272321429))) : Color((#colorLiteral(red: 0.2904311822, green: 0.4765915186, blue: 0.8422653367, alpha: 0.7275455298))))
                 .frame(height: 200)
-                .shadow(radius: 5)
+                .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 4, x: -3, y: -3)
             
             Text(card.isFlipped ? card.answer : card.question)
-                .font(.title2)
+                .font(.custom("Menlo-Bold", size: 25))
                 .foregroundColor(.white)
                 .padding()
         }
-        .padding(.horizontal, 20)
+        .padding(.top, 50)
+        .padding(.horizontal, 40)
         .onTapGesture {
             withAnimation{
                 if let index = flashcards.firstIndex(where: { $0.id == card.id}) {
