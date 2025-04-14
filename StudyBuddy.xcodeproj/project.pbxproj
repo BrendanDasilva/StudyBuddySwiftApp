@@ -30,21 +30,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		4F6A47242D8B559C00227E5A /* Exceptions for "StudyBuddy" folder in "StudyBuddyTests" target */ = {
+		68E697672D8C77DA007A45E1 /* Exceptions for "StudyBuddy" folder in "StudyBuddy" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Anybody-Bold.ttf",
 				"Anybody-Regular.ttf",
+				Assets.xcassets,
+				"Preview Content/Preview Assets.xcassets",
+				"studybuddy-backend/node_modules/fs/package.json",
+				"studybuddy-backend/node_modules/fs/README.md",
+				"studybuddy-backend/node_modules/https/package.json",
 			);
-			target = 685F6D8E2D773A2100A81DF1 /* StudyBuddyTests */;
-		};
-		4F6A47252D8B559C00227E5A /* Exceptions for "StudyBuddy" folder in "StudyBuddyUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Anybody-Bold.ttf",
-				"Anybody-Regular.ttf",
-			);
-			target = 685F6D982D773A2100A81DF1 /* StudyBuddyUITests */;
+			target = 685F6D7E2D773A2000A81DF1 /* StudyBuddy */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -52,8 +49,7 @@
 		685F6D812D773A2000A81DF1 /* StudyBuddy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				4F6A47242D8B559C00227E5A /* Exceptions for "StudyBuddy" folder in "StudyBuddyTests" target */,
-				4F6A47252D8B559C00227E5A /* Exceptions for "StudyBuddy" folder in "StudyBuddyUITests" target */,
+				68E697672D8C77DA007A45E1 /* Exceptions for "StudyBuddy" folder in "StudyBuddy" target */,
 			);
 			path = StudyBuddy;
 			sourceTree = "<group>";
