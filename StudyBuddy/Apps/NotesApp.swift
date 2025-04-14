@@ -43,16 +43,16 @@ struct NotesApp: View {
                             HStack {
                                 Text(note.text ?? "")
                                     .font(.custom("Menlo-Bold", size: 16))
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .background(Color(#colorLiteral(red: 0.8015663495, green: 0.9380386521, blue: 0.9764705896, alpha: 1)))
-                                    .cornerRadius(10)
+                                    .cornerRadius(5)
+                                    .padding(.leading, 20)
                                     .foregroundColor(.black)
                                 Spacer()
                             }
-                            .background(Color.clear)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color(#colorLiteral(red: 0.8015663495, green: 0.9380386521, blue: 0.9764705896, alpha: 1)))
                             .cornerRadius(10)
-                            .padding(.horizontal, 10)
+                            .padding(.horizontal, 5)
                         }
                         .listRowBackground(Color.clear)
                         .swipeActions {
