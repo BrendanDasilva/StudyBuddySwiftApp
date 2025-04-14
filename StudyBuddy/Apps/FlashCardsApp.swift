@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct FlashCardsApp: View {
+    @Environment(\.dismiss) var dismiss
     @State private var flashcards: [FlashCard] = []
     @State private var showAddCardForm = false
     @State private var showEditCardForm = false
@@ -18,14 +19,35 @@ struct FlashCardsApp: View {
     
     var groupId: String
     var body: some View {
-        VStack {
-            Spacer()
+        VStack(alignment: .leading) {
+            HStack{
+                
+                Button(action: {
+                    dismiss()
+                }){
+                    Image(systemName: "chevron.left")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .frame(width: 40, height: 40)
+                        .background(Color.blue.opacity(0.7))
+                        .clipShape(Circle())
+                        .shadow(radius: 2)
+                }
+                .padding(.leading)
+                
+                Spacer()
+                
+            }.padding(.top, 50)
+            
+            Spacer().frame(height: 20)
+            
             
             Text("Flash Cards")
                 .font(.custom("HelveticaNeue-Bold", size: 60))
                 .foregroundColor(Color.white)
                 .shadow(color: Color.gray, radius: 8, x: 0, y: 8)
                 .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
                 .padding(.top, 30)
             
             if flashcards.isEmpty {
@@ -54,7 +76,7 @@ struct FlashCardsApp: View {
                                 flashcards: $flashcards,
                                 card: card,
                                 deleteAction: { id in
-                                        deleteFlashcard(id: id)
+                                    deleteFlashcard(id: id)
                                 }
                             )
                         }
@@ -67,7 +89,7 @@ struct FlashCardsApp: View {
                 showAddCardForm.toggle()
             }) {
                 Image(systemName: "plus")
-                    .font(.custom("Menlo-Bold", size: 16))
+                    .font(.custom("Menlo-Bold", size: 14))
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(Color.purple.opacity(0.5))
@@ -78,33 +100,37 @@ struct FlashCardsApp: View {
             .shadow(color: Color(#colorLiteral(red: 0.13401145, green: 0.1061868557, blue: 0.2262137172, alpha: 0.7275455298)), radius: 4, x: -3, y: -3)
             .foregroundColor(.white)
             .padding(.horizontal, 40)
-            .padding(.bottom, 100)
+            .padding(.bottom, 15)
         }
         .background(Color((#colorLiteral(red: 0.5142536745, green: 0.4125612287, blue: 0.9104301199, alpha: 0.3884167631))).edgesIgnoringSafeArea(.all))
+        
         .sheet(isPresented: $showAddCardForm) {
-            
-            AddEditFlashcardView(
-                title: "Add Flashcard",
-                question: $newQuestion,
-                answer: $newAnswer,
-                saveAction: {
-                    addFlashcard()
-                    showAddCardForm = false
-                }
-            )
-        }
-        .sheet(isPresented: $showAddCardForm){
-            AddEditFlashcardView(
-                title: "Edit Flashcard",
-                question: $newQuestion,
-                answer: $newAnswer,
-                saveAction: {
-                    if let selectedFlashcard = selectedFlashcard {
-                        editFlashcard(id: selectedFlashcard.id, question: newQuestion, answer: newAnswer)
+            if showEditCardForm, let selectedFlashcard = selectedFlashcard {
+                AddEditFlashcardView(
+                    title: "Edit Flashcard",
+                    question: $newQuestion,
+                    answer: $newAnswer,
+                    saveAction: {
+                        editFlashcard(
+                            id: selectedFlashcard.id,
+                            question: newQuestion,
+                            answer: newAnswer
+                        )
+                        showEditCardForm = false
+                        showAddCardForm = false
                     }
-                    showEditCardForm = false
-                }
-            )
+                )
+            } else {
+                AddEditFlashcardView(
+                    title: "Add Flashcard",
+                    question: $newQuestion,
+                    answer: $newAnswer,
+                    saveAction: {
+                        addFlashcard()
+                        showAddCardForm = false
+                    }
+                )
+            }
         }
         .onAppear{
             loadFlashcards()
@@ -113,8 +139,6 @@ struct FlashCardsApp: View {
             Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
         }
     }
-    
-    
     func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "flashcards") {
             let decoder = JSONDecoder()
